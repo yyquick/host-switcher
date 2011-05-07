@@ -13,7 +13,11 @@
 #include <iostream>
 
 HostConfig::HostConfig() {
+#ifdef Q_WS_WIN
+	config_file_path_ = "C:/Windows/System32/drivers/etc/hosts";
+#else
 	config_file_path_ = "/etc/hosts";
+#endif
 	parse_host_file();
 }
 
