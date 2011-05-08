@@ -11,10 +11,25 @@
 #include <QStringList>
 #include <QTextStream>
 #include <iostream>
+#include <windows.h>
+#include <tchar.h>
+#include <stdio.h>
+#include <QString>
 
 HostConfig::HostConfig() {
 #ifdef Q_WS_WIN
-	config_file_path_ = "C:/Windows/System32/drivers/etc/hosts";
+#define INFO_BUFFER_SIZE 1000
+	TCHAR  infoBuf[INFO_BUFFER_SIZE];
+	int len;
+	if ( len = GetSystemDirectory(infoBuf, INFO_BUFFER_SIZE)) {
+		char buffer[1000];
+		len = WideCharToMultiByte(CP_UTF8, NULL, infoBuf, len, buffer, 1000, NULL, NULL);
+		buffer[len] = NULL;
+		config_file_path_ = buffer;
+		config_file_path_ = config_file_path_.append("/drivers/etc/hosts");
+	} else {
+		config_file_path_ = "C:/Windows/System32/drivers/etc/hosts";
+	}
 #else
 	config_file_path_ = "/etc/hosts";
 #endif

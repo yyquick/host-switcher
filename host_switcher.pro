@@ -9,3 +9,8 @@ SOURCES += host_switcher.cpp \
     main.cpp
 FORMS += host_switcher.ui
 RESOURCES += host_switcher.qrc
+
+OTHER_FILES += \
+    main_icon.rc
+
+win32:RC_FILE = main_icon.rc
