@@ -11,14 +11,14 @@
 #include <QStringList>
 #include <QTextStream>
 #include <iostream>
+#ifdef Q_WS_WIN
 #include <windows.h>
 #include <tchar.h>
-#include <stdio.h>
-#include <QString>
+#endif
 
 HostConfig::HostConfig() {
 #ifdef Q_WS_WIN
-#define INFO_BUFFER_SIZE 1000
+	#define INFO_BUFFER_SIZE 1000
 	TCHAR  infoBuf[INFO_BUFFER_SIZE];
 	int len;
 	if ( len = GetSystemDirectory(infoBuf, INFO_BUFFER_SIZE)) {

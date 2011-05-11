@@ -1,0 +1,5 @@
+#!/bin/sh
+if [ `ps x | grep "host-switcher " | wc -l` -ge 2 ];
+then exit;
+fi
+gksudo "`dirname $0`/host-switcher -style gtk"
