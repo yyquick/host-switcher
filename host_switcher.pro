@@ -11,13 +11,14 @@ FORMS += host_switcher.ui
 RESOURCES += host_switcher.qrc
 OTHER_FILES += main_icon.rc \
     hs-launcher \
-    images/switch.png
+    images/switch.png \
+    install/hostswitcher.desktop
 win32:RC_FILE = main_icon.rc
 unix { 
     images.files = images/*
     images.path = /usr/local/host-switcher/images
     INSTALLS += images
-    desktop.files = host-switcher.desktop
+	desktop.files = install/hostswitcher.desktop
     desktop.path = /usr/share/applications
     INSTALLS += desktop
     launcher.files = hs-launcher
