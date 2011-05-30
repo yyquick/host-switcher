@@ -70,7 +70,7 @@ void HostConfig::parse_host_file() {
 		return;
 	section_list_.clear();
 	QByteArray content = file.readAll();
-	QRegExp	first_rx("(.*)###### HostManager Item: (.+) Start ######");
+	QRegExp	first_rx("(.*)###### HostSwitcher Item: (.+) Start ######");
 	first_rx.setMinimal(true);
 	if (first_rx.indexIn(content.data(), 0) != -1) {
 		QStringList match_list = first_rx.capturedTexts();
@@ -80,7 +80,7 @@ void HostConfig::parse_host_file() {
 		Section first_sec("Common", content);
 		section_list_.append(first_sec);
 	}
-	QRegExp	rx("###### HostManager Item: (.+) Start ######(.+)###### HostManager Item: .+ End ######");
+	QRegExp	rx("###### HostSwitcher Item: (.+) Start ######(.+)###### HostSwitcher Item: .+ End ######");
 	rx.setMinimal(true);
 
 	int pos = 0;
@@ -102,7 +102,7 @@ void HostConfig::save_info() {
 	HostConfig::SectionListIter iter;
 	for (iter = section_list_.begin(); iter != section_list_.end(); iter++) {
 		if (iter != section_list_.begin()) {
-			write_stream << "###### HostManager Item: " << iter->name_ << " Start ######" << endl;
+			write_stream << "###### HostSwitcher Item: " << iter->name_ << " Start ######" << endl;
 		}
 		QTextStream content_stream(&(iter->content_));
 		while (!content_stream.atEnd()) {
@@ -116,7 +116,7 @@ void HostConfig::save_info() {
 			}
 		}
 		if (iter != section_list_.begin()) {
-			write_stream << "###### HostManager Item: " << iter->name_ << " End ######" << endl;
+			write_stream << "###### HostSwitcher Item: " << iter->name_ << " End ######" << endl;
 		}
 	}
 }
