@@ -12,7 +12,9 @@ RESOURCES += host_switcher.qrc
 OTHER_FILES += main_icon.rc \
     hs-launcher \
     images/switch.png \
-    install/hostswitcher.desktop
+    install/hostswitcher.desktop \
+    images/switch.icns \
+    images/switch.ico
 win32:RC_FILE = main_icon.rc
 unix { 
     images.files = images/*
@@ -28,3 +30,4 @@ unix {
     target.path = /usr/local/host-switcher
     INSTALLS += target
 }
+mac:ICON = images/switch.icns
