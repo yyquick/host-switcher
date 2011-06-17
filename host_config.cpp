@@ -60,7 +60,6 @@ HostConfig::Section::Section(QString name, QString raw_content) {
 }
 
 HostConfig::Section::~Section() {
-
 }
 
 void HostConfig::parse_host_file() {
