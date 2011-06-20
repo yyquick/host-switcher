@@ -2,6 +2,7 @@
 #include <QDesktopWidget>
 #include <QtGui>
 #include <iostream>
+#include <QtDebug>
 
 QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.1)!\n"
 		"\n"
@@ -27,7 +28,7 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 
 	host_config_ = new HostConfig();
 
-    createTrayIcon();
+	createTrayIcon();
 
 	ui.itemListTableWidget->setColumnCount(1);
 	ui.itemListTableWidget->setRowCount(host_config_->section_list_.count());
@@ -208,12 +209,17 @@ void HostSwitcher::hostConfigTriggered(QAction *action) {
 		break;
 	default:
 		QTableWidgetItem *item = ui.itemListTableWidget->item(type, 0);
-		item->setCheckState(Qt::Checked);
+		if (action->isChecked()) {
+			item->setCheckState(Qt::Checked);
+		} else {
+			item->setCheckState(Qt::Unchecked);
+		}
 	}
 }
 
 void HostSwitcher::resetTrayIconMenu() {
-    trayIconMenu->clear();
+	std::cout << "trayIcon clear" << std::endl;
+	trayIconMenu->clear();
 
 	HostConfig::SectionListIter iter;
 	int i = 0;
