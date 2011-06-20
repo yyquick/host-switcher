@@ -1,5 +1,6 @@
 TEMPLATE = app
 TARGET = host-switcher
+include(qxtglobalshortcut/qxtglobalshortcut.pri)
 QT += core \
     gui
 HEADERS += host_switcher.h \

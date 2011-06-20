@@ -3,8 +3,13 @@
 #include <QtGui>
 #include <iostream>
 #include <QtDebug>
+#include <qxtglobalshortcut.h>
 
-QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.1)!\n"
+QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.2)!\n"
+		"\n"
+		"Press \"Ctrl+Alt+H\" to restore this window.(new feature)\n"
+		"\n"
+		"Press \"Ctrl+Alt+S\" to switch the host config.(new feature)\n"
 		"\n"
 		"Clicking the items in the left side can edit the host config and enable/disable it.\n"
 		"\n"
@@ -55,6 +60,15 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	trayIcon->show();
 
 	ui.contentEditor->setPlainText(help_message);
+	ui.contentEditor->setReadOnly(true);
+
+	QxtGlobalShortcut * scRestore = new QxtGlobalShortcut(QKeySequence("Ctrl+Alt+H"), this);
+	connect(scRestore, SIGNAL(activated()),this, SLOT(showNormal()));
+
+	QxtGlobalShortcut * scSwitch = new QxtGlobalShortcut(QKeySequence("Ctrl+Alt+S"), this);
+	connect(scSwitch, SIGNAL(activated()),this, SLOT(switchItem()));
+
+	ui.itemListTableWidget->setFocus();
 }
 
 HostSwitcher::~HostSwitcher() {
@@ -120,6 +134,7 @@ void HostSwitcher::on_itemListTableWidget_itemSelectionChanged() {
 		current_doc->setPlainText(
 				host_config_->section_list_[current_row].content_);
 	}
+	ui.contentEditor->setReadOnly(false);
 }
 
 void HostSwitcher::on_itemListTableWidget_itemChanged(QTableWidgetItem *item) {
@@ -186,7 +201,6 @@ void HostSwitcher::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason) {
     case QSystemTrayIcon::Trigger:
-    case QSystemTrayIcon::DoubleClick:
 		hide();
         this->showNormal();
         break;
@@ -218,7 +232,6 @@ void HostSwitcher::hostConfigTriggered(QAction *action) {
 }
 
 void HostSwitcher::resetTrayIconMenu() {
-	std::cout << "trayIcon clear" << std::endl;
 	trayIconMenu->clear();
 
 	HostConfig::SectionListIter iter;
@@ -245,4 +258,20 @@ void HostSwitcher::resetTrayIconMenu() {
     trayIconMenu->addAction(restoreAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
+}
+
+void HostSwitcher::switchItem() {
+	int len = host_config_->section_list_.size();
+	int i, next = 1;
+	for (i = 1; i < len; i++) {
+		QTableWidgetItem *item = ui.itemListTableWidget->item(i, 0);
+		if (item->checkState() == Qt::Checked) {
+			item->setCheckState(Qt::Unchecked);
+			next = i % (len - 1) + 1;
+			break;
+		}
+	}
+	QTableWidgetItem *item = ui.itemListTableWidget->item(next, 0);
+	item->setCheckState(Qt::Checked);
+	trayIcon->showMessage("Host Switcher", host_config_->section_list_[next].name_, QSystemTrayIcon::NoIcon, 3000);
 }

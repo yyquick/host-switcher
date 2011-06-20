@@ -48,6 +48,8 @@ public slots:
 	void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
 	void hostConfigTriggered(QAction *action);
+
+	void switchItem();
 };
 
 #endif // HOSTMANAGER_H
