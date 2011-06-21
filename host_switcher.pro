@@ -2,7 +2,7 @@ TEMPLATE = app
 TARGET = host-switcher
 include(qxtglobalshortcut/qxtglobalshortcut.pri)
 QT += core \
-    gui
+      gui
 HEADERS += host_switcher.h \
     host_config.h
 SOURCES += host_switcher.cpp \
@@ -17,7 +17,7 @@ OTHER_FILES += main_icon.rc \
     images/switch.icns \
     images/switch.ico
 win32:RC_FILE = main_icon.rc
-unix { 
+linux {
     images.files = images/*
     images.path = /usr/local/host-switcher/images
     INSTALLS += images
@@ -31,4 +31,8 @@ unix {
     target.path = /usr/local/host-switcher
     INSTALLS += target
 }
-mac:ICON = images/switch.icns
+mac {
+    ICON = images/switch.icns
+    CONFIG -= x86_64
+    CONFIG += x86
+}
