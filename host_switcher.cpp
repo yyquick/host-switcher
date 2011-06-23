@@ -8,7 +8,7 @@
 #ifdef Q_OS_MAC
 QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.2)!\n"
 		"\n"
-                "Press \"Command+Shift+S\" to switch the host config.(new feature)\n"
+				"Press \"Command+Shift+S\" or \"Command+Shift+W\" to switch the host config.(new feature)\n"
 		"\n"
 		"Clicking the items in the left side can edit the host config and enable/disable it.\n"
 		"\n"
@@ -26,9 +26,9 @@ QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.2)!\
 #else
 QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.2)!\n"
                 "\n"
-                "Press \"Ctrl+Shift+H\" to restore this window.(new feature)\n"
+				"Press \"Ctrl+Alt+H\" to restore this window.(new feature)\n"
                 "\n"
-                "Press \"Ctrl+Shift+S\" to switch the host config.(new feature)\n"
+				"Press \"Ctrl+Alt+S\" or \"Ctrl+Alt+W\" to switch the host config.(new feature)\n"
                 "\n"
                 "Clicking the items in the left side can edit the host config and enable/disable it.\n"
                 "\n"
@@ -82,12 +82,22 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	ui.contentEditor->setPlainText(help_message);
 	ui.contentEditor->setReadOnly(true);
 
-#ifndef Q_OS_MAC
-        QxtGlobalShortcut * scRestore = new QxtGlobalShortcut(QKeySequence("Ctrl+Shift+H"), this);
-        connect(scRestore, SIGNAL(activated()),this, SLOT(showNormal()));
+#ifdef Q_OS_MAC
+	QxtGlobalShortcut * scSwitchDown = new QxtGlobalShortcut(QKeySequence("Ctrl+Shift+S"), this);
+	connect(scSwitchDown, SIGNAL(activated()),this, SLOT(switchItemDown()));
+
+	QxtGlobalShortcut * scSwitchUp = new QxtGlobalShortcut(QKeySequence("Ctrl+Shift+W"), this);
+	connect(scSwitchUp, SIGNAL(activated()),this, SLOT(switchItemUp()));
+#else
+	QxtGlobalShortcut * scRestore = new QxtGlobalShortcut(QKeySequence("Ctrl+Alt+H"), this);
+	connect(scRestore, SIGNAL(activated()),this, SLOT(showNormal()));
+
+	QxtGlobalShortcut * scSwitchDown = new QxtGlobalShortcut(QKeySequence("Ctrl+Alt+S"), this);
+	connect(scSwitchDown, SIGNAL(activated()),this, SLOT(switchItemDown()));
+
+	QxtGlobalShortcut * scSwitchUp = new QxtGlobalShortcut(QKeySequence("Ctrl+Alt+W"), this);
+	connect(scSwitchUp, SIGNAL(activated()),this, SLOT(switchItemUp()));
 #endif
-        QxtGlobalShortcut * scSwitch = new QxtGlobalShortcut(QKeySequence("Ctrl+Shift+S"), this);
-        connect(scSwitch, SIGNAL(activated()),this, SLOT(switchItem()));
 
 	ui.itemListTableWidget->setFocus();
 }
@@ -281,7 +291,7 @@ void HostSwitcher::resetTrayIconMenu() {
     trayIconMenu->addAction(quitAction);
 }
 
-void HostSwitcher::switchItem() {
+void HostSwitcher::switchItemDown() {
 	int len = host_config_->section_list_.size();
 	int i, next = 1;
 	for (i = 1; i < len; i++) {
@@ -289,6 +299,22 @@ void HostSwitcher::switchItem() {
 		if (item->checkState() == Qt::Checked) {
 			item->setCheckState(Qt::Unchecked);
 			next = i % (len - 1) + 1;
+			break;
+		}
+	}
+	QTableWidgetItem *item = ui.itemListTableWidget->item(next, 0);
+	item->setCheckState(Qt::Checked);
+	trayIcon->showMessage("Host Switcher", host_config_->section_list_[next].name_, QSystemTrayIcon::NoIcon, 3000);
+}
+
+void HostSwitcher::switchItemUp() {
+	int len = host_config_->section_list_.size();
+	int i, next = 1;
+	for (i = 1; i < len; i++) {
+		QTableWidgetItem *item = ui.itemListTableWidget->item(i, 0);
+		if (item->checkState() == Qt::Checked) {
+			item->setCheckState(Qt::Unchecked);
+			next = (i - 2 + len - 1) % (len - 1) + 1;
 			break;
 		}
 	}

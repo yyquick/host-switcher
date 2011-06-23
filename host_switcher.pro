@@ -17,7 +17,7 @@ OTHER_FILES += main_icon.rc \
     images/switch.icns \
     images/switch.ico
 win32:RC_FILE = main_icon.rc
-linux {
+unix {
     images.files = images/*
     images.path = /usr/local/host-switcher/images
     INSTALLS += images

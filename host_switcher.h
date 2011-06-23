@@ -49,7 +49,8 @@ public slots:
 
 	void hostConfigTriggered(QAction *action);
 
-	void switchItem();
+	void switchItemUp();
+	void switchItemDown();
 };
 
 #endif // HOSTMANAGER_H
