@@ -5,7 +5,7 @@ HEADERS += $$PWD/qxtglobal.h \
            $$PWD/qxtglobalshortcut.h \
            $$PWD/qxtglobalshortcut_p.h
 SOURCES += $$PWD/qxtglobalshortcut.cpp
-win32{
+win32 {
     SOURCES += $$PWD/qxtglobalshortcut_win.cpp
     LIBS += -luser32
 }
