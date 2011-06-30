@@ -31,6 +31,7 @@ private:
 	QUrl url_;
 	QNetworkAccessManager qnam_;
 	QNetworkReply *reply_;
+	QString result_;
 
 private slots:
 	void start_request();

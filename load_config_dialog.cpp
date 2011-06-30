@@ -37,20 +37,34 @@ void LoadConfigDialog::start_request()
 	reply_ = qnam_.get(QNetworkRequest(url_));
 	connect(reply_, SIGNAL(finished()),	this, SLOT(http_finished()));
 	connect(reply_, SIGNAL(readyRead()), this, SLOT(http_ready_read()));
+	this->ui->statusLabel->setText("Loading...");
 }
 
 void LoadConfigDialog::http_finished()
 {
-	this->close();
+	if (this->reply_->error() == QNetworkReply::NoError) {
+		parent_->host_config_->import_config_content(url_.toString(), this->result_);
+		this->ui->statusLabel->setText("");
+		this->close();
+	} else {
+		this->ui->statusLabel->setText(this->reply_->errorString());
+		this->ui->statusLabel->setToolTip(this->reply_->errorString());
+	}
 }
 
 void LoadConfigDialog::http_ready_read()
 {
-	parent_->host_config_->import_config_content(url_.toString(), reply_->readAll());
+	if (reply_->error() == QNetworkReply::NoError) {
+		this->result_ = reply_->readAll();
+	}
 }
 
 void LoadConfigDialog::show_myself() {
-	ui->lineEdit->setText(parent_->host_config_->last_load_url_);
+	if (parent_->host_config_->last_load_url_ != "") {
+		ui->lineEdit->setText(parent_->host_config_->last_load_url_);
+	} else {
+		ui->lineEdit->setText("http://host/file");
+	}
 	ui->lineEdit->selectAll();
 	ui->lineEdit->setFocus();
 	show();
