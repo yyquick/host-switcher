@@ -5,6 +5,7 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include "ui_host_switcher.h"
+#include "load_config_dialog.h"
 #include "host_config.h"
 
 QT_BEGIN_NAMESPACE
@@ -12,6 +13,8 @@ class QAction;
 class QMenu;
 class QPushButton;
 QT_END_NAMESPACE
+
+class LoadConfigDialog;
 
 class HostSwitcher: public QWidget {
 Q_OBJECT
@@ -21,15 +24,16 @@ public:
 	~HostSwitcher();
 
 	static QString help_message;
+	HostConfig *host_config_;
 
 private:
 	Ui::HostSwitcherClass ui;
 
-	HostConfig *host_config_;
     QAction *restoreAction;
     QAction *quitAction;
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
+	LoadConfigDialog *load_config_dialig_;
 
 	void createTrayIcon();
 	void resetTrayIconMenu();
@@ -51,6 +55,9 @@ public slots:
 
 	void switchItemUp();
 	void switchItemDown();
+
+	void showLoadConfigDialog();
+
 };
 
 #endif // HOSTMANAGER_H

@@ -59,6 +59,22 @@ HostConfig::Section::Section(QString name, QString raw_content) {
 	stream.flush();
 }
 
+void HostConfig::Section::merge(QString content) {
+	QTextStream s1(&(this->content_));
+	QStringList l1;
+	while (!s1.atEnd()) {
+		l1.append(s1.readLine());
+	}
+	QTextStream s2(&content);
+	QString line;
+	while (!s2.atEnd()) {
+		line = s2.readLine();
+		if (!l1.contains(line)) {
+			s1 << endl << line;
+		}
+	}
+}
+
 HostConfig::Section::~Section() {
 }
 
@@ -89,6 +105,71 @@ void HostConfig::parse_host_file() {
 		Section sec(match_list[1], match_list[2]);
 		section_list_.append(sec);
 	}
+
+	QRegExp	config_rx("###### HostSwitcher Config Start ######(.+)###### HostSwitcher Config End ######");
+	config_rx.setMinimal(true);
+	if (config_rx.indexIn(content.data(), 0) != -1) {
+		QStringList match_list = config_rx.capturedTexts();
+		QString line = match_list[1];
+		line = line.trimmed();
+		line.remove(0, 18);
+		this->last_load_url_ = line;
+	}
+}
+
+int HostConfig::find(QString name) {
+	HostConfig::SectionListIter iter;
+	int i = 0;
+	for (iter = section_list_.begin(); iter != section_list_.end(); iter++) {
+		if (iter->name_ == name) {
+			return i;
+		}
+		i++;
+	}
+	return -1;
+}
+
+void HostConfig::merge(QString name, QString content) {
+	int i = this->find(name);
+	if (i == -1) {
+		Section sec(name, content);
+		section_list_.append(sec);
+	} else {
+		section_list_[i].merge(content);
+	}
+}
+
+void HostConfig::set(QString name, QString content) {
+	int i = this->find(name);
+	if (i == -1) {
+		Section sec(name, content);
+		section_list_.append(sec);
+	} else {
+		section_list_[i].content_ = content;
+	}
+}
+
+void HostConfig::import_config_content(QString url, QString content) {
+	QRegExp	first_rx("(.*)###### HostSwitcher Item: (.+) Start ######");
+	first_rx.setMinimal(true);
+	if (first_rx.indexIn(content, 0) != -1) {
+		QStringList match_list = first_rx.capturedTexts();
+		this->merge("Common", match_list[1]);
+	} else {
+		this->merge("Common", content);
+	}
+
+	QRegExp	rx("###### HostSwitcher Item: (.+) Start ######(.+)###### HostSwitcher Item: .+ End ######");
+	rx.setMinimal(true);
+
+	int pos = 0;
+	while ((pos = rx.indexIn(content, pos)) != -1) {
+		pos += rx.matchedLength();
+		QStringList match_list = rx.capturedTexts();
+		this->set(match_list[1], match_list[2]);
+	}
+	this->last_load_url_ = url;
+	this->save_info();
 }
 
 void HostConfig::save_info() {
@@ -118,6 +199,9 @@ void HostConfig::save_info() {
 			write_stream << "###### HostSwitcher Item: " << iter->name_ << " End ######" << endl;
 		}
 	}
+	write_stream << "###### HostSwitcher Config Start ######" << endl;
+	write_stream << "## last_load_url: " << this->last_load_url_ << endl;
+	write_stream << "###### HostSwitcher Config End ######" << endl;
 }
 
 void HostConfig::append_item(QString name, QString content) {

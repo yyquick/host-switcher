@@ -82,6 +82,10 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	ui.contentEditor->setPlainText(help_message);
 	ui.contentEditor->setReadOnly(true);
 
+	load_config_dialig_ = new LoadConfigDialog(this);
+
+	connect(ui.loadConfigButton, SIGNAL(clicked()), this, SLOT(showLoadConfigDialog()));
+
 #ifdef Q_OS_MAC
 	QxtGlobalShortcut * scSwitchDown = new QxtGlobalShortcut(QKeySequence("Ctrl+Shift+S"), this);
 	connect(scSwitchDown, SIGNAL(activated()),this, SLOT(switchItemDown()));
@@ -321,4 +325,8 @@ void HostSwitcher::switchItemUp() {
 	QTableWidgetItem *item = ui.itemListTableWidget->item(next, 0);
 	item->setCheckState(Qt::Checked);
 	trayIcon->showMessage("Host Switcher", host_config_->section_list_[next].name_, QSystemTrayIcon::NoIcon, 3000);
+}
+
+void HostSwitcher::showLoadConfigDialog() {
+	load_config_dialig_->show_myself();
 }
