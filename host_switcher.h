@@ -58,6 +58,8 @@ public slots:
 
 	void showLoadConfigDialog();
 
+	void showHelpMessage();
+
 };
 
 #endif // HOSTMANAGER_H

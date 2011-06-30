@@ -6,29 +6,37 @@
 #include <qxtglobalshortcut.h>
 
 #ifdef Q_OS_MAC
-QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.2)!\n"
-		"\n"
-				"Press \"Command+Shift+S\" or \"Command+Shift+W\" to switch the host config.(new feature)\n"
-		"\n"
-		"Clicking the items in the left side can edit the host config and enable/disable it.\n"
-		"\n"
-		"The 'Common' item is used for the common host config. You can enable/disable it individually. And you can enable only one of the other items.\n"
-		"\n"
-		"You can edit the config content of the selected item on the editor on the right side and save the change by clicking the 'Save' button.\n"
-		"\n"
-		"You can add or delete items by clicking the relative buttons on the leftdown side.\n"
-		"\n"
-		"And you can alse switch the host config by right-clicking the system tray icon.\n"
-		"\n"
-		"You can not close the program by closing the window. You should close it through the system tray icon.\n"
-		"\n"
-		"This software is written by yyquick. If you can give him a delicious chicken leg, he will smile :-)";
+QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.3)!\n"
+									 "\n"
+									 "Click Load Button to load host config from http server. (new feature)\n"
+									 "\n"
+									 "Click Help Button to show this help message. (new feature)\n"
+									 "\n"
+									 "Press \"Command+Shift+S\" or \"Command+Shift+W\" to switch the host config.\n"
+									 "\n"
+									 "Clicking the items in the left side can edit the host config and enable/disable it.\n"
+									 "\n"
+									 "The 'Common' item is used for the common host config. You can enable/disable it individually. And you can enable only one of the other items.\n"
+									 "\n"
+									 "You can edit the config content of the selected item on the editor on the right side and save the change by clicking the 'Save' button.\n"
+									 "\n"
+									 "You can add or delete items by clicking the relative buttons on the leftdown side.\n"
+									 "\n"
+									 "And you can alse switch the host config by right-clicking the system tray icon.\n"
+									 "\n"
+									 "You can not close the program by closing the window. You should close it through the system tray icon.\n"
+									 "\n"
+									 "This software is written by yyquick. If you can give him a delicious chicken leg, he will smile :-)";
 #else
-QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.2)!\n"
+QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.3)!\n"
                 "\n"
-				"Press \"Ctrl+Alt+H\" to restore this window.(new feature)\n"
+				"Click Load Button to load host config from http server. (new feature)\n"
+				"\n"
+				"Click Help Button to show this help message. (new feature)\n"
+				"\n"
+				"Press \"Ctrl+Alt+H\" to restore this window.\n"
                 "\n"
-				"Press \"Ctrl+Alt+S\" or \"Ctrl+Alt+W\" to switch the host config.(new feature)\n"
+				"Press \"Ctrl+Alt+S\" or \"Ctrl+Alt+W\" to switch the host config.\n"
                 "\n"
                 "Clicking the items in the left side can edit the host config and enable/disable it.\n"
                 "\n"
@@ -79,11 +87,10 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 
 	trayIcon->show();
 
-	ui.contentEditor->setPlainText(help_message);
-	ui.contentEditor->setReadOnly(true);
+	this->showHelpMessage();
+	connect(ui.helpButton, SIGNAL(clicked()), this, SLOT(showHelpMessage()));
 
 	load_config_dialig_ = new LoadConfigDialog(this);
-
 	connect(ui.loadConfigButton, SIGNAL(clicked()), this, SLOT(showLoadConfigDialog()));
 
 #ifdef Q_OS_MAC
@@ -139,6 +146,7 @@ void HostSwitcher::on_saveInfoButton_clicked() {
 	QTextDocument *current_doc = ui.contentEditor->document();
 	current_doc->setPlainText(host_config_->section_list_[current_row].content_);
 	ui.saveInfoButton->setEnabled(false);
+	ui.loadConfigButton->setEnabled(true);
 }
 
 void HostSwitcher::on_itemListTableWidget_itemSelectionChanged() {
@@ -212,6 +220,7 @@ void HostSwitcher::on_itemListTableWidget_itemChanged(QTableWidgetItem *item) {
 
 void HostSwitcher::on_contentEditor_undoAvailable(bool available) {
 	ui.saveInfoButton->setEnabled(available);
+	ui.loadConfigButton->setEnabled(!available);
 }
 
 void HostSwitcher::createTrayIcon()
@@ -297,6 +306,9 @@ void HostSwitcher::resetTrayIconMenu() {
 
 void HostSwitcher::switchItemDown() {
 	int len = host_config_->section_list_.size();
+	if (len <= 1) {
+		return;
+	}
 	int i, next = 1;
 	for (i = 1; i < len; i++) {
 		QTableWidgetItem *item = ui.itemListTableWidget->item(i, 0);
@@ -313,6 +325,9 @@ void HostSwitcher::switchItemDown() {
 
 void HostSwitcher::switchItemUp() {
 	int len = host_config_->section_list_.size();
+	if (len <= 1) {
+		return;
+	}
 	int i, next = 1;
 	for (i = 1; i < len; i++) {
 		QTableWidgetItem *item = ui.itemListTableWidget->item(i, 0);
@@ -329,4 +344,10 @@ void HostSwitcher::switchItemUp() {
 
 void HostSwitcher::showLoadConfigDialog() {
 	load_config_dialig_->show_myself();
+}
+
+void HostSwitcher::showHelpMessage() {
+	ui.itemListTableWidget->clearSelection();
+	ui.contentEditor->setPlainText(help_message);
+	ui.contentEditor->setReadOnly(true);
 }

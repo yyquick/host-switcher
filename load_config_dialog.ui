@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Load Config from Http Server</string>
+   <string>Load Host Config from Http Server</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -40,6 +40,12 @@
      <width>281</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
    </property>
    <property name="text">
     <string/>
