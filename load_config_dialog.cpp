@@ -63,7 +63,7 @@ void LoadConfigDialog::show_myself() {
 	if (parent_->host_config_->last_load_url_ != "") {
 		ui->lineEdit->setText(parent_->host_config_->last_load_url_);
 	} else {
-		ui->lineEdit->setText("http://host/file");
+		ui->lineEdit->setText("http://host/path/file");
 	}
 	ui->lineEdit->selectAll();
 	ui->lineEdit->setFocus();
