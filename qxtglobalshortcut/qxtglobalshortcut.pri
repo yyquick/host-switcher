@@ -11,6 +11,7 @@ win32 {
 }
 unix:SOURCES += $$PWD/qxtglobalshortcut_x11.cpp
 mac {
+    SOURCES -= $$PWD/qxtglobalshortcut_x11.cpp
     SOURCES += $$PWD/qxtglobalshortcut_mac.cpp
     LIBS += -framework Carbon -framework AppKit
 }
