@@ -46,6 +46,8 @@ void LoadConfigDialog::http_finished()
 		parent_->host_config_->import_config_content(url_.toString(), this->result_);
 		this->ui->statusLabel->setText("");
 		this->close();
+		parent_->showHelpMessage();
+		parent_->resetItems();
 	} else {
 		this->ui->statusLabel->setText(this->reply_->errorString());
 		this->ui->statusLabel->setToolTip(this->reply_->errorString());

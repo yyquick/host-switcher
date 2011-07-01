@@ -143,6 +143,7 @@ void HostConfig::set(QString name, QString content) {
 	int i = this->find(name);
 	if (i == -1) {
 		Section sec(name, content);
+		sec.is_enable_ = false;
 		section_list_.append(sec);
 	} else {
 		section_list_[i].content_ = content;

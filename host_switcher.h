@@ -26,6 +26,8 @@ public:
 	static QString help_message;
 	HostConfig *host_config_;
 
+	void resetItems();
+
 private:
 	Ui::HostSwitcherClass ui;
 

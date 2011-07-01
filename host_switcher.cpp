@@ -34,9 +34,9 @@ QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.3)!\
 				"\n"
 				"Click Help Button to show this help message. (new feature)\n"
 				"\n"
-				"Press \"Ctrl+Alt+H\" to restore this window.\n"
+				"Press \"Shift+Alt+H\" to restore this window.\n"
                 "\n"
-				"Press \"Ctrl+Alt+S\" or \"Ctrl+Alt+W\" to switch the host config.\n"
+				"Press \"Shift+Alt+S\" or \"Shift+Alt+W\" to switch the host config.\n"
                 "\n"
                 "Clicking the items in the left side can edit the host config and enable/disable it.\n"
                 "\n"
@@ -100,13 +100,13 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	QxtGlobalShortcut * scSwitchUp = new QxtGlobalShortcut(QKeySequence("Ctrl+Shift+W"), this);
 	connect(scSwitchUp, SIGNAL(activated()),this, SLOT(switchItemUp()));
 #else
-	QxtGlobalShortcut * scRestore = new QxtGlobalShortcut(QKeySequence("Ctrl+Alt+H"), this);
+	QxtGlobalShortcut * scRestore = new QxtGlobalShortcut(QKeySequence("Shift+Alt+H"), this);
 	connect(scRestore, SIGNAL(activated()),this, SLOT(showNormal()));
 
-	QxtGlobalShortcut * scSwitchDown = new QxtGlobalShortcut(QKeySequence("Ctrl+Alt+S"), this);
+	QxtGlobalShortcut * scSwitchDown = new QxtGlobalShortcut(QKeySequence("Shift+Alt+S"), this);
 	connect(scSwitchDown, SIGNAL(activated()),this, SLOT(switchItemDown()));
 
-	QxtGlobalShortcut * scSwitchUp = new QxtGlobalShortcut(QKeySequence("Ctrl+Alt+W"), this);
+	QxtGlobalShortcut * scSwitchUp = new QxtGlobalShortcut(QKeySequence("Shift+Alt+W"), this);
 	connect(scSwitchUp, SIGNAL(activated()),this, SLOT(switchItemUp()));
 #endif
 
@@ -115,6 +115,28 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 
 HostSwitcher::~HostSwitcher() {
 	delete host_config_;
+}
+
+void HostSwitcher::resetItems() {
+	ui.itemListTableWidget->setColumnCount(1);
+	ui.itemListTableWidget->setRowCount(host_config_->section_list_.count());
+	HostConfig::SectionListIter iter;
+	int i = 0;
+	for (iter = host_config_->section_list_.begin(); iter != host_config_->section_list_.end(); iter++) {
+		QTableWidgetItem *column = new QTableWidgetItem(iter->name_);
+		if (iter->is_enable_) {
+			column->setCheckState(Qt::Checked);
+		} else {
+			column->setCheckState(Qt::Unchecked);
+		}
+		if (iter == host_config_->section_list_.begin()) {
+			column->setBackgroundColor(QColor(200, 200, 200));
+			column->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+		}
+		ui.itemListTableWidget->setItem(i, 0, column);
+		i++;
+	}
+	this->resetTrayIconMenu();
 }
 
 void HostSwitcher::on_addItemButton_clicked() {
