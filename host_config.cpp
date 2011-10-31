@@ -11,6 +11,7 @@
 #include <QStringList>
 #include <QTextStream>
 #include <iostream>
+#include <QTextCodec>
 #ifdef Q_WS_WIN
 #include <windows.h>
 #include <tchar.h>
@@ -18,6 +19,13 @@
 
 HostConfig::HostConfig() {
 #ifdef Q_WS_WIN
+	// 设置内部字符串编码方式
+	QTextCodec *gbk = QTextCodec::codecForName("gb18030");
+	QTextCodec::setCodecForTr(gbk);
+	QTextCodec::setCodecForLocale(gbk);
+	QTextCodec::setCodecForCStrings(gbk);
+
+	// 设置host文件路径
 	#define INFO_BUFFER_SIZE 1000
 	TCHAR  infoBuf[INFO_BUFFER_SIZE];
 	int len;
@@ -31,6 +39,13 @@ HostConfig::HostConfig() {
 		config_file_path_ = "C:/Windows/System32/drivers/etc/hosts";
 	}
 #else
+	// 设置内部字符串编码方式
+	QTextCodec *utg8 = QTextCodec::codecForName("utf-8");
+	QTextCodec::setCodecForTr(utg8);
+	QTextCodec::setCodecForLocale(utg8);
+	QTextCodec::setCodecForCStrings(utg8);
+
+	// 设置host文件路径
 	config_file_path_ = "/etc/hosts";
 #endif
 	parse_host_file();
