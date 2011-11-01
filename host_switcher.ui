@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>HostSwitcherClass</class>
  <widget class="QWidget" name="HostSwitcherClass">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -161,11 +164,14 @@
    </property>
   </widget>
   <widget class="QPushButton" name="moveItemUpButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>185</x>
+     <x>186</x>
      <y>180</y>
-     <width>30</width>
+     <width>28</width>
      <height>31</height>
     </rect>
    </property>
@@ -174,11 +180,14 @@
    </property>
   </widget>
   <widget class="QPushButton" name="moveItemDownButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>185</x>
+     <x>186</x>
      <y>270</y>
-     <width>30</width>
+     <width>28</width>
      <height>31</height>
     </rect>
    </property>
