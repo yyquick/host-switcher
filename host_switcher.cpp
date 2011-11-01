@@ -247,7 +247,7 @@ void HostSwitcher::on_contentEditor_undoAvailable(bool available) {
 
 void HostSwitcher::createTrayIcon()
 {
-    trayIconMenu = new QMenu(this);
+	trayIconMenu = new QMenu(QApplication::desktop());
     connect(trayIconMenu, SIGNAL(triggered(QAction *)), this, SLOT(hostConfigTriggered(QAction *)));
     resetTrayIconMenu();
 
