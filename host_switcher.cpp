@@ -57,6 +57,11 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	QWidget(parent) {
 
 	ui.setupUi(this);
+
+	Qt::WindowFlags flags = 0;
+	flags |= Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint;
+	setWindowFlags(flags); // forbid maximum the window
+
 	ui.saveInfoButton->setEnabled(false);
 
 	host_config_ = new HostConfig();
