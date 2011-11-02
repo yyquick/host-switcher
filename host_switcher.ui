@@ -165,7 +165,7 @@
   <widget class="QPushButton" name="helpButton">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>420</x>
      <y>490</y>
      <width>93</width>
      <height>31</height>
@@ -208,6 +208,19 @@
    </property>
    <property name="checkable">
     <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="hotKeyButton">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>490</y>
+     <width>93</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Hotkey</string>
    </property>
   </widget>
  </widget>

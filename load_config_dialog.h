@@ -37,6 +37,7 @@ private slots:
 	void start_request();
 	void http_finished();
 	void http_ready_read();
+	void cancel();
 };
 
 #endif // LOAD_CONFIG_DIALOG_H

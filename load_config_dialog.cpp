@@ -11,7 +11,7 @@ LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
 	this->parent_ = (HostSwitcher *)parent;
 	connect(this->ui->loadButton, SIGNAL(clicked()), this, SLOT(start_request()));
 	connect(this->ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(start_request()));
-	connect(this->ui->cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+	connect(this->ui->cancelButton, SIGNAL(clicked()), this, SLOT(cancel()));
 }
 
 LoadConfigDialog::~LoadConfigDialog()
@@ -70,4 +70,9 @@ void LoadConfigDialog::show_myself() {
 	ui->lineEdit->selectAll();
 	ui->lineEdit->setFocus();
 	show();
+}
+
+void LoadConfigDialog::cancel() {
+	reply_->abort();
+	reject();
 }
