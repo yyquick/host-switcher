@@ -110,6 +110,8 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	connect(scSwitchUp, SIGNAL(activated()),this, SLOT(switchItemUp()));
 #endif
 
+	ui.itemListTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+	ui.itemListTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 	ui.itemListTableWidget->setFocus();
 }
 
@@ -160,6 +162,46 @@ void HostSwitcher::on_deleteItemButton_clicked() {
 	}
 }
 
+void HostSwitcher::on_moveItemUpButton_clicked() {
+	int current_row = ui.itemListTableWidget->currentRow();
+	int next_row;
+	if (current_row <= 1) {
+		next_row = 1;
+	} else {
+		next_row = current_row - 1;
+	}
+	this->swapItem(current_row, next_row);
+	QTableWidgetItem *next_item = ui.itemListTableWidget->item(next_row, 0);
+	ui.itemListTableWidget->setCurrentItem(next_item);
+}
+
+void HostSwitcher::on_moveItemDownButton_clicked() {
+	int current_row = ui.itemListTableWidget->currentRow();
+	int row_count = ui.itemListTableWidget->rowCount();
+	int next_row;
+	if (current_row >= row_count - 1) {
+		next_row = current_row;
+	} else {
+		next_row = current_row + 1;
+	}
+	this->swapItem(current_row, next_row);
+	QTableWidgetItem *next_item = ui.itemListTableWidget->item(next_row, 0);
+	ui.itemListTableWidget->setCurrentItem(next_item);
+}
+
+void HostSwitcher::swapItem(int rowA, int rowB) {
+	host_config_->section_list_.swap(rowA, rowB);
+	host_config_->save_info();
+	QTableWidgetItem *itemA = ui.itemListTableWidget->item(rowA, 0);
+	QTableWidgetItem *itemB = ui.itemListTableWidget->item(rowB, 0);
+	QString title = itemA->text();
+	itemA->setText(itemB->text());
+	itemB->setText(title);
+	Qt::CheckState check_state = itemA->checkState();
+	itemA->setCheckState(itemB->checkState());
+	itemB->setCheckState(check_state);
+}
+
 void HostSwitcher::on_saveInfoButton_clicked() {
 	int current_row = ui.itemListTableWidget->currentRow();
 	host_config_->section_list_[current_row].content_
@@ -176,13 +218,25 @@ void HostSwitcher::on_itemListTableWidget_itemSelectionChanged() {
 	if (current_row < 0) {
 		return;
 	}
+	int row_count = ui.itemListTableWidget->rowCount();
 	if (current_row == 0) {
 		ui.deleteItemButton->setEnabled(false);
+		ui.moveItemUpButton->setEnabled(false);
+		ui.moveItemDownButton->setEnabled(false);
 	} else {
 		ui.deleteItemButton->setEnabled(true);
+		if (current_row == 1) {
+			ui.moveItemUpButton->setEnabled(false);
+		} else {
+			ui.moveItemUpButton->setEnabled(true);
+		}
+		if (current_row == row_count - 1) {
+			ui.moveItemDownButton->setEnabled(false);
+		} else {
+			ui.moveItemDownButton->setEnabled(true);
+		}
 	}
 	int i;
-	int row_count = ui.itemListTableWidget->rowCount();
 	for (i = 0; i < row_count; i++) {
 		QTableWidgetItem *item = ui.itemListTableWidget->item(i, 0);
 		QFont font = item->font();
@@ -196,8 +250,7 @@ void HostSwitcher::on_itemListTableWidget_itemSelectionChanged() {
 
 	QTextDocument *current_doc = ui.contentEditor->document();
 	if (current_doc) {
-		current_doc->setPlainText(
-				host_config_->section_list_[current_row].content_);
+		current_doc->setPlainText(host_config_->section_list_[current_row].content_);
 	}
 	ui.contentEditor->setReadOnly(false);
 }

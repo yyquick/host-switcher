@@ -40,9 +40,14 @@ private:
 	void createTrayIcon();
 	void resetTrayIconMenu();
 
+	void swapItem(int rowA, int rowB);
+
 public slots:
 	void on_addItemButton_clicked();
 	void on_deleteItemButton_clicked();
+
+	void on_moveItemUpButton_clicked();
+	void on_moveItemDownButton_clicked();
 
 	void on_saveInfoButton_clicked();
 
