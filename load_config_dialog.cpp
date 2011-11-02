@@ -9,6 +9,7 @@ LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 	this->parent_ = (HostSwitcher *)parent;
+	this->reply_ = NULL;
 	connect(this->ui->loadButton, SIGNAL(clicked()), this, SLOT(start_request()));
 	connect(this->ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(start_request()));
 	connect(this->ui->cancelButton, SIGNAL(clicked()), this, SLOT(cancel()));
@@ -73,6 +74,8 @@ void LoadConfigDialog::show_myself() {
 }
 
 void LoadConfigDialog::cancel() {
-	reply_->abort();
+	if (reply_) {
+		reply_->abort();
+	}
 	reject();
 }

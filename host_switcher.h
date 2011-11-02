@@ -6,6 +6,7 @@
 #include <QMenu>
 #include "ui_host_switcher.h"
 #include "load_config_dialog.h"
+#include "set_hotkey_dialog.h"
 #include "host_config.h"
 
 QT_BEGIN_NAMESPACE
@@ -35,7 +36,8 @@ private:
     QAction *quitAction;
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
-	LoadConfigDialog *load_config_dialig_;
+	LoadConfigDialog *load_config_dialog_;
+	SetHotKeyDialog *setHotKeyDialog;
 
 	void createTrayIcon();
 	void resetTrayIconMenu();
@@ -64,6 +66,7 @@ public slots:
 	void switchItemDown();
 
 	void showLoadConfigDialog();
+	void showSetHotkeyDialog();
 
 	void showHelpMessage();
 

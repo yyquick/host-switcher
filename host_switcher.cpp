@@ -95,8 +95,11 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	this->showHelpMessage();
 	connect(ui.helpButton, SIGNAL(clicked()), this, SLOT(showHelpMessage()));
 
-	load_config_dialig_ = new LoadConfigDialog(this);
+	load_config_dialog_ = new LoadConfigDialog(this);
 	connect(ui.loadConfigButton, SIGNAL(clicked()), this, SLOT(showLoadConfigDialog()));
+
+	setHotKeyDialog = new SetHotKeyDialog(this);
+	connect(ui.hotKeyButton, SIGNAL(clicked()), this, SLOT(showSetHotkeyDialog()));
 
 #ifdef Q_OS_MAC
 	QxtGlobalShortcut * scSwitchDown = new QxtGlobalShortcut(QKeySequence("Ctrl+Shift+S"), this);
@@ -423,11 +426,15 @@ void HostSwitcher::switchItemUp() {
 }
 
 void HostSwitcher::showLoadConfigDialog() {
-	load_config_dialig_->show_myself();
+	load_config_dialog_->show_myself();
 }
 
 void HostSwitcher::showHelpMessage() {
 	ui.itemListTableWidget->clearSelection();
 	ui.contentEditor->setPlainText(help_message);
 	ui.contentEditor->setReadOnly(true);
+}
+
+void HostSwitcher::showSetHotkeyDialog() {
+	setHotKeyDialog->show();
 }
