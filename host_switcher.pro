@@ -7,12 +7,14 @@ QT += core \
 HEADERS += host_switcher.h \
     host_config.h \
 	load_config_dialog.h \
-    set_hotkey_dialog.h
+    set_hotkey_dialog.h \
+    hotkey_edit.h
 SOURCES += host_switcher.cpp \
     host_config.cpp \
     main.cpp \
 	load_config_dialog.cpp \
-    set_hotkey_dialog.cpp
+    set_hotkey_dialog.cpp \
+    hotkey_edit.cpp
 FORMS += host_switcher.ui \
 	load_config_dialog.ui \
     set_hotkey_dialog.ui
