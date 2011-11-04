@@ -7,7 +7,7 @@ SetHotkeyDialog::SetHotkeyDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-	parentWidget = parent;
+	parentWidget = (HostSwitcher *)parent;
 }
 
 SetHotkeyDialog::~SetHotkeyDialog()
@@ -15,4 +15,7 @@ SetHotkeyDialog::~SetHotkeyDialog()
     delete ui;
 }
 
+void SetHotkeyDialog::save()
+{
 
+}

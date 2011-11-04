@@ -98,7 +98,7 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	load_config_dialog_ = new LoadConfigDialog(this);
 	connect(ui.loadConfigButton, SIGNAL(clicked()), this, SLOT(showLoadConfigDialog()));
 
-	setHotKeyDialog = new SetHotKeyDialog(this);
+	setHotKeyDialog = new SetHotkeyDialog(this);
 	connect(ui.hotKeyButton, SIGNAL(clicked()), this, SLOT(showSetHotkeyDialog()));
 
 #ifdef Q_OS_MAC

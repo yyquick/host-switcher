@@ -4,6 +4,8 @@
 #include <QDialog>
 #include "host_switcher.h"
 
+class HostSwitcher;
+
 namespace Ui {
 	class SetHotkeyDialog;
 }

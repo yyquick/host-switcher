@@ -16,6 +16,7 @@ class QPushButton;
 QT_END_NAMESPACE
 
 class LoadConfigDialog;
+class SetHotkeyDialog;
 
 class HostSwitcher: public QWidget {
 Q_OBJECT
@@ -37,7 +38,7 @@ private:
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
 	LoadConfigDialog *load_config_dialog_;
-	SetHotKeyDialog *setHotKeyDialog;
+	SetHotkeyDialog *setHotKeyDialog;
 
 	void createTrayIcon();
 	void resetTrayIconMenu();
