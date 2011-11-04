@@ -13,6 +13,7 @@
 #include <QList>
 #include <QTextStream>
 #include <QStringList>
+#include <QMap>
 
 class HostConfig {
 public:
@@ -38,6 +39,7 @@ public:
 
 public:
 	QList< Section > section_list_;
+	QMap< QString, QString > config_;
 	typedef QList< Section >::iterator SectionListIter;
 	QString last_load_url_;
 
