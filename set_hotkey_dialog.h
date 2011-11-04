@@ -2,21 +2,29 @@
 #define SET_HOTKEY_DIALOG_H
 
 #include <QDialog>
+#include "host_switcher.h"
 
 namespace Ui {
-    class SetHotKeyDialog;
+	class SetHotkeyDialog;
 }
 
-class SetHotKeyDialog : public QDialog
+class SetHotkeyDialog : public QDialog
 {
     Q_OBJECT
 
+	void showMyself();
+
 public:
-    explicit SetHotKeyDialog(QWidget *parent = 0);
-    ~SetHotKeyDialog();
+	explicit SetHotkeyDialog(QWidget *parent = 0);
+	~SetHotkeyDialog();
 
 private:
-    Ui::SetHotKeyDialog *ui;
+	Ui::SetHotkeyDialog *ui;
+
+	HostSwitcher *parentWidget;
+
+private slots:
+	void save();
 };
 
 #endif // SET_HOTKEY_DIALOG_H

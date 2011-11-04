@@ -1,14 +1,18 @@
 #include "set_hotkey_dialog.h"
 #include "ui_set_hotkey_dialog.h"
 
-SetHotKeyDialog::SetHotKeyDialog(QWidget *parent) :
+SetHotkeyDialog::SetHotkeyDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::SetHotKeyDialog)
+	ui(new Ui::SetHotkeyDialog)
 {
     ui->setupUi(this);
+
+	parentWidget = parent;
 }
 
-SetHotKeyDialog::~SetHotKeyDialog()
+SetHotkeyDialog::~SetHotkeyDialog()
 {
     delete ui;
 }
+
+

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SetHotKeyDialog</class>
- <widget class="QDialog" name="SetHotKeyDialog">
+ <class>SetHotkeyDialog</class>
+ <widget class="QDialog" name="SetHotkeyDialog">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -16,7 +16,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="HotkeyEdit" name="lineEdit">
+  <widget class="HotkeyEdit" name="moveUpHotkeyEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -42,7 +42,7 @@
     <string>Move Up</string>
    </property>
   </widget>
-  <widget class="HotkeyEdit" name="lineEdit_2">
+  <widget class="HotkeyEdit" name="moveDownHotkeyEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -68,7 +68,7 @@
     <string>Move Down</string>
    </property>
   </widget>
-  <widget class="HotkeyEdit" name="lineEdit_3">
+  <widget class="HotkeyEdit" name="restoreHotKeyEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -94,7 +94,7 @@
     <string>Restore</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="saveHotkeyButton">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -107,7 +107,7 @@
     <string>Save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="cancelHotkeyButton">
    <property name="geometry">
     <rect>
      <x>170</x>
