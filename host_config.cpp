@@ -125,11 +125,19 @@ void HostConfig::parse_host_file() {
 	config_rx.setMinimal(true);
 	if (config_rx.indexIn(content.data(), 0) != -1) {
 		QStringList match_list = config_rx.capturedTexts();
-		QString line = match_list[1];
-		line = line.trimmed();
-		line.remove(0, 18);
-		this->last_load_url_ = line;
+		QString config_content = match_list[1];
+		QRegExp config_line_rx("## (.+): (.*)[\n|\r]");
+		config_line_rx.setMinimal(true);
+		int pos = 0;
+		while ((pos = config_line_rx.indexIn(config_content, pos)) != -1) {
+			pos += config_line_rx.matchedLength();
+			QStringList match_list = config_line_rx.capturedTexts();
+			QString key = match_list[1];
+			QString value = match_list[2];
+			config_[key] = value;
+		}
 	}
+	this->last_load_url_ = config_["last_load_url"];
 }
 
 int HostConfig::find(QString name) {
