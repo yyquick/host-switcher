@@ -53,5 +53,9 @@ void SetHotkeyDialog::showMyself()
 	ui->moveDownHotkeyEdit->setText(hotkeyMoveDown);
 	ui->restoreHotKeyEdit->setText(hotkeyRestore);
 
+#ifdef Q_OS_MAC
+	ui->restoreHotKeyEdit->setEnabled(false);
+#endif
+
 	this->show();
 }
