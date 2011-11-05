@@ -40,8 +40,8 @@ public:
 public:
 	QList< Section > section_list_;
 	QMap< QString, QString > config_;
+	typedef QMap< QString, QString >::iterator ConfigIter;
 	typedef QList< Section >::iterator SectionListIter;
-	QString last_load_url_;
 
 protected:
 	QString config_file_path_;

@@ -137,7 +137,6 @@ void HostConfig::parse_host_file() {
 			config_[key] = value;
 		}
 	}
-	this->last_load_url_ = config_["last_load_url"];
 }
 
 int HostConfig::find(QString name) {
@@ -192,7 +191,7 @@ void HostConfig::import_config_content(QString url, QString content) {
 		QStringList match_list = rx.capturedTexts();
 		this->set(match_list[1], match_list[2]);
 	}
-	this->last_load_url_ = url;
+	this->config_["last_load_url"] = url;
 	this->save_info();
 }
 
@@ -224,7 +223,11 @@ void HostConfig::save_info() {
 		}
 	}
 	write_stream << "###### HostSwitcher Config Start ######" << endl;
-	write_stream << "## last_load_url: " << this->last_load_url_ << endl;
+	//write_stream << "## last_load_url: " << this->last_load_url_ << endl;
+	HostConfig::ConfigIter config_iter;
+	for (config_iter = config_.begin(); config_iter != config_.end(); config_iter++) {
+		write_stream << "## " << config_iter.key() << ": " << config_iter.value() << endl;
+	}
 	write_stream << "###### HostSwitcher Config End ######" << endl;
 }
 

@@ -63,8 +63,9 @@ void LoadConfigDialog::http_ready_read()
 }
 
 void LoadConfigDialog::show_myself() {
-	if (parent_->host_config_->last_load_url_ != "") {
-		ui->lineEdit->setText(parent_->host_config_->last_load_url_);
+	QString url = parent_->host_config_->config_["last_load_url"];
+	if (url != "") {
+		ui->lineEdit->setText(url);
 	} else {
 		ui->lineEdit->setText("http://host/path/file");
 	}
