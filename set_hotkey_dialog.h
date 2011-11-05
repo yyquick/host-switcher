@@ -14,11 +14,11 @@ class SetHotkeyDialog : public QDialog
 {
     Q_OBJECT
 
-	void showMyself();
-
 public:
 	explicit SetHotkeyDialog(QWidget *parent = 0);
 	~SetHotkeyDialog();
+
+	void showMyself();
 
 private:
 	Ui::SetHotkeyDialog *ui;

@@ -8,7 +8,7 @@ HotkeyEdit::HotkeyEdit(QWidget *parent) :
 
 void HotkeyEdit::keyPressEvent(QKeyEvent *event)
 {
-	if (event->text() != "") {
+	if (event->text() != "" && event->modifiers() > 0) {
 		QKeySequence ks(event->modifiers() + event->key());
 		this->setText(ks.toString());
 	}

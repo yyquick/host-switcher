@@ -3,7 +3,6 @@
 #include <QtGui>
 #include <iostream>
 #include <QtDebug>
-#include <qxtglobalshortcut.h>
 
 #ifdef Q_OS_MAC
 QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.3)!\n"
@@ -101,30 +100,51 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	setHotKeyDialog = new SetHotkeyDialog(this);
 	connect(ui.hotKeyButton, SIGNAL(clicked()), this, SLOT(showSetHotkeyDialog()));
 
-#ifdef Q_OS_MAC
-	QxtGlobalShortcut * scSwitchDown = new QxtGlobalShortcut(QKeySequence("Ctrl+Shift+S"), this);
-	connect(scSwitchDown, SIGNAL(activated()),this, SLOT(switchItemDown()));
-
-	QxtGlobalShortcut * scSwitchUp = new QxtGlobalShortcut(QKeySequence("Ctrl+Shift+W"), this);
-	connect(scSwitchUp, SIGNAL(activated()),this, SLOT(switchItemUp()));
-#else
-	QxtGlobalShortcut * scRestore = new QxtGlobalShortcut(QKeySequence("Shift+Alt+H"), this);
-	connect(scRestore, SIGNAL(activated()),this, SLOT(showNormal()));
-
-	QxtGlobalShortcut * scSwitchDown = new QxtGlobalShortcut(QKeySequence("Shift+Alt+S"), this);
-	connect(scSwitchDown, SIGNAL(activated()),this, SLOT(switchItemDown()));
-
-	QxtGlobalShortcut * scSwitchUp = new QxtGlobalShortcut(QKeySequence("Shift+Alt+W"), this);
-	connect(scSwitchUp, SIGNAL(activated()),this, SLOT(switchItemUp()));
-#endif
-
 	ui.itemListTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.itemListTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 	ui.itemListTableWidget->setFocus();
+
+	this->bindHotkeys();
 }
 
 HostSwitcher::~HostSwitcher() {
 	delete host_config_;
+}
+
+void HostSwitcher::bindHotkeys()
+{
+#ifdef Q_OS_MAC
+	scSwitchDown = new QxtGlobalShortcut(QKeySequence(this->host_config_->config_[HostConfig::HOTKEY_MOVE_DOWN_KEY]), this);
+	if (!connect(scSwitchDown, SIGNAL(activated()),this, SLOT(switchItemDown()))) {
+		delete scSwitchDown;
+		scSwitchDown = NULL;
+	}
+
+	scSwitchUp = new QxtGlobalShortcut(QKeySequence(this->host_config_->config_[HostConfig::HOTKEY_MOVE_UP_KEY]), this);
+	if (!connect(scSwitchUp, SIGNAL(activated()),this, SLOT(switchItemUp()))) {
+		delete scSwitchUp;
+		scSwitchUp = NULL;
+	}
+	scRestore = NULL;
+#else
+	scRestore = new QxtGlobalShortcut(QKeySequence(this->host_config_->config_[HostConfig::HOTKEY_RESTORE_KEY]), this);
+	if (!connect(scRestore, SIGNAL(activated()),this, SLOT(showNormal()))) {
+		delete scRestore;
+		scRestore = NULL;
+	}
+
+	scSwitchDown = new QxtGlobalShortcut(QKeySequence(this->host_config_->config_[HostConfig::HOTKEY_MOVE_DOWN_KEY]), this);
+	if (!connect(scSwitchDown, SIGNAL(activated()),this, SLOT(switchItemDown()))) {
+		delete scSwitchDown;
+		scSwitchDown = NULL;
+	}
+
+	scSwitchUp = new QxtGlobalShortcut(QKeySequence(this->host_config_->config_[HostConfig::HOTKEY_MOVE_UP_KEY]), this);
+	if (!connect(scSwitchUp, SIGNAL(activated()),this, SLOT(switchItemUp()))) {
+		delete scSwitchUp;
+		scSwitchUp = NULL;
+	}
+#endif
 }
 
 void HostSwitcher::resetItems() {
@@ -436,5 +456,5 @@ void HostSwitcher::showHelpMessage() {
 }
 
 void HostSwitcher::showSetHotkeyDialog() {
-	setHotKeyDialog->show();
+	setHotKeyDialog->showMyself();
 }

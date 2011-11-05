@@ -17,6 +17,10 @@
 #include <tchar.h>
 #endif
 
+QString HostConfig::HOTKEY_MOVE_UP_KEY = "hotkey_move_up";
+QString HostConfig::HOTKEY_MOVE_DOWN_KEY = "hotkey_move_down";
+QString HostConfig::HOTKEY_RESTORE_KEY = "hotkey_restore";
+
 HostConfig::HostConfig() {
 #ifdef Q_WS_WIN
 	// set text codec
@@ -137,6 +141,24 @@ void HostConfig::parse_host_file() {
 			config_[key] = value;
 		}
 	}
+#ifdef Q_OS_MAC
+	if (config_[HostConfig::HOTKEY_MOVE_UP_KEY] == "") {
+		config_[HostConfig::HOTKEY_MOVE_UP_KEY] = "Shift+Alt+W";
+	}
+	if (config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] == "") {
+		config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] = "Shift+Alt+S";
+	}
+#else
+	if (config_[HostConfig::HOTKEY_MOVE_UP_KEY] == "") {
+		config_[HostConfig::HOTKEY_MOVE_UP_KEY] = "Shift+Alt+W";
+	}
+	if (config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] == "") {
+		config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] = "Shift+Alt+S";
+	}
+	if (config_[HostConfig::HOTKEY_RESTORE_KEY] == "") {
+		config_[HostConfig::HOTKEY_RESTORE_KEY] = "Shift+Alt+H";
+	}
+#endif
 }
 
 int HostConfig::find(QString name) {

@@ -43,6 +43,10 @@ public:
 	typedef QMap< QString, QString >::iterator ConfigIter;
 	typedef QList< Section >::iterator SectionListIter;
 
+	static QString HOTKEY_MOVE_UP_KEY;
+	static QString HOTKEY_MOVE_DOWN_KEY;
+	static QString HOTKEY_RESTORE_KEY;
+
 protected:
 	QString config_file_path_;
 	void merge(QString name, QString content);

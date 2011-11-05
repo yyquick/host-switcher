@@ -8,6 +8,7 @@
 #include "load_config_dialog.h"
 #include "set_hotkey_dialog.h"
 #include "host_config.h"
+#include <qxtglobalshortcut.h>
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -27,8 +28,13 @@ public:
 
 	static QString help_message;
 	HostConfig *host_config_;
+	QxtGlobalShortcut *scRestore;
+	QxtGlobalShortcut *scSwitchDown;
+	QxtGlobalShortcut *scSwitchUp;
 
 	void resetItems();
+
+	void bindHotkeys();
 
 private:
 	Ui::HostSwitcherClass ui;
