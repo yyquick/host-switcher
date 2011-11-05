@@ -26,13 +26,14 @@ public:
 	HostSwitcher(QWidget *parent = 0);
 	~HostSwitcher();
 
-	static QString help_message;
 	HostConfig *host_config_;
 	QxtGlobalShortcut *scRestore;
 	QxtGlobalShortcut *scSwitchDown;
 	QxtGlobalShortcut *scSwitchUp;
 
 	void resetItems();
+
+	void selectItem(int i);
 
 	void bindHotkeys();
 
@@ -74,8 +75,6 @@ public slots:
 
 	void showLoadConfigDialog();
 	void showSetHotkeyDialog();
-
-	void showHelpMessage();
 
 };
 

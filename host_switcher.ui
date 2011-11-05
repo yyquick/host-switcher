@@ -162,19 +162,6 @@
     <string>Load</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="helpButton">
-   <property name="geometry">
-    <rect>
-     <x>420</x>
-     <y>490</y>
-     <width>93</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Help</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="moveItemUpButton">
    <property name="enabled">
     <bool>false</bool>

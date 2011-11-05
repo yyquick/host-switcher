@@ -4,54 +4,6 @@
 #include <iostream>
 #include <QtDebug>
 
-#ifdef Q_OS_MAC
-QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.3)!\n"
-									 "\n"
-									 "Click Load Button to load host config from http server. (new feature)\n"
-									 "\n"
-									 "Click Help Button to show this help message. (new feature)\n"
-									 "\n"
-									 "Press \"Command+Shift+S\" or \"Command+Shift+W\" to switch the host config.\n"
-									 "\n"
-									 "Clicking the items in the left side can edit the host config and enable/disable it.\n"
-									 "\n"
-									 "The 'Common' item is used for the common host config. You can enable/disable it individually. And you can enable only one of the other items.\n"
-									 "\n"
-									 "You can edit the config content of the selected item on the editor on the right side and save the change by clicking the 'Save' button.\n"
-									 "\n"
-									 "You can add or delete items by clicking the relative buttons on the leftdown side.\n"
-									 "\n"
-									 "And you can alse switch the host config by right-clicking the system tray icon.\n"
-									 "\n"
-									 "You can not close the program by closing the window. You should close it through the system tray icon.\n"
-									 "\n"
-									 "This software is written by yyquick. If you can give him a delicious chicken leg, he will smile :-)";
-#else
-QString HostSwitcher::help_message = "Welcome to use HostSwitcher(version 0.3)!\n"
-                "\n"
-				"Click Load Button to load host config from http server. (new feature)\n"
-				"\n"
-				"Click Help Button to show this help message. (new feature)\n"
-				"\n"
-				"Press \"Shift+Alt+H\" to restore this window.\n"
-                "\n"
-				"Press \"Shift+Alt+S\" or \"Shift+Alt+W\" to switch the host config.\n"
-                "\n"
-                "Clicking the items in the left side can edit the host config and enable/disable it.\n"
-                "\n"
-                "The 'Common' item is used for the common host config. You can enable/disable it individually. And you can enable only one of the other items.\n"
-                "\n"
-                "You can edit the config content of the selected item on the editor on the right side and save the change by clicking the 'Save' button.\n"
-                "\n"
-                "You can add or delete items by clicking the relative buttons on the leftdown side.\n"
-                "\n"
-                "And you can alse switch the host config by right-clicking the system tray icon.\n"
-                "\n"
-                "You can not close the program by closing the window. You should close it through the system tray icon.\n"
-                "\n"
-                "This software is written by yyquick. If you can give him a delicious chicken leg, he will smile :-)";
-#endif
-
 HostSwitcher::HostSwitcher(QWidget *parent) :
 	QWidget(parent) {
 
@@ -91,9 +43,6 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 
 	trayIcon->show();
 
-	this->showHelpMessage();
-	connect(ui.helpButton, SIGNAL(clicked()), this, SLOT(showHelpMessage()));
-
 	load_config_dialog_ = new LoadConfigDialog(this);
 	connect(ui.loadConfigButton, SIGNAL(clicked()), this, SLOT(showLoadConfigDialog()));
 
@@ -105,10 +54,17 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	ui.itemListTableWidget->setFocus();
 
 	this->bindHotkeys();
+
+	this->selectItem(0);
 }
 
 HostSwitcher::~HostSwitcher() {
 	delete host_config_;
+}
+
+void HostSwitcher::selectItem(int i)
+{
+	this->ui.itemListTableWidget->setCurrentItem(this->ui.itemListTableWidget->item(i, 0));
 }
 
 void HostSwitcher::bindHotkeys()
@@ -447,12 +403,6 @@ void HostSwitcher::switchItemUp() {
 
 void HostSwitcher::showLoadConfigDialog() {
 	load_config_dialog_->show_myself();
-}
-
-void HostSwitcher::showHelpMessage() {
-	ui.itemListTableWidget->clearSelection();
-	ui.contentEditor->setPlainText(help_message);
-	ui.contentEditor->setReadOnly(true);
 }
 
 void HostSwitcher::showSetHotkeyDialog() {
