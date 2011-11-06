@@ -143,20 +143,20 @@ void HostConfig::parse_host_file() {
 	}
 #ifdef Q_OS_MAC
 	if (config_[HostConfig::HOTKEY_MOVE_UP_KEY] == "") {
-		config_[HostConfig::HOTKEY_MOVE_UP_KEY] = "Shift+Alt+W";
+                config_[HostConfig::HOTKEY_MOVE_UP_KEY] = "Alt+Shift+W";
 	}
 	if (config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] == "") {
-		config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] = "Shift+Alt+S";
+                config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] = "Alt+Shift+S";
 	}
 #else
 	if (config_[HostConfig::HOTKEY_MOVE_UP_KEY] == "") {
-		config_[HostConfig::HOTKEY_MOVE_UP_KEY] = "Shift+Alt+W";
+                config_[HostConfig::HOTKEY_MOVE_UP_KEY] = "Alt+Shift+W";
 	}
 	if (config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] == "") {
-		config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] = "Shift+Alt+S";
+                config_[HostConfig::HOTKEY_MOVE_DOWN_KEY] = "Alt+Shift+S";
 	}
 	if (config_[HostConfig::HOTKEY_RESTORE_KEY] == "") {
-		config_[HostConfig::HOTKEY_RESTORE_KEY] = "Shift+Alt+H";
+                config_[HostConfig::HOTKEY_RESTORE_KEY] = "Alt+Shift+H";
 	}
 #endif
 }
