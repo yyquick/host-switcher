@@ -176,14 +176,7 @@ void HostSwitcher::on_moveItemDownButton_clicked() {
 void HostSwitcher::swapItem(int rowA, int rowB) {
 	host_config_->section_list_.swap(rowA, rowB);
 	host_config_->save_info();
-	QTableWidgetItem *itemA = ui.itemListTableWidget->item(rowA, 0);
-	QTableWidgetItem *itemB = ui.itemListTableWidget->item(rowB, 0);
-	QString title = itemA->text();
-	itemA->setText(itemB->text());
-	itemB->setText(title);
-	Qt::CheckState check_state = itemA->checkState();
-	itemA->setCheckState(itemB->checkState());
-	itemB->setCheckState(check_state);
+	resetItems();
 }
 
 void HostSwitcher::on_saveInfoButton_clicked() {
