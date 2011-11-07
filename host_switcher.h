@@ -7,6 +7,7 @@
 #include "ui_host_switcher.h"
 #include "load_config_dialog.h"
 #include "set_hotkey_dialog.h"
+#include "about_dialog.h"
 #include "host_config.h"
 #include <qxtglobalshortcut.h>
 
@@ -46,6 +47,7 @@ private:
     QMenu *trayIconMenu;
 	LoadConfigDialog *load_config_dialog_;
 	SetHotkeyDialog *setHotKeyDialog;
+	AboutDialog *aboutDialog;
 
 	void createTrayIcon();
 	void resetTrayIconMenu();
@@ -75,6 +77,7 @@ public slots:
 
 	void showLoadConfigDialog();
 	void showSetHotkeyDialog();
+	void showAboutDialog();
 
 };
 

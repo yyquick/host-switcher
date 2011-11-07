@@ -2,22 +2,25 @@ TEMPLATE = app
 TARGET = host-switcher
 include(qxtglobalshortcut/qxtglobalshortcut.pri)
 QT += core \
-	gui \
-	network
+    gui \
+    network
 HEADERS += host_switcher.h \
     host_config.h \
-	load_config_dialog.h \
+    load_config_dialog.h \
     set_hotkey_dialog.h \
-    hotkey_edit.h
+    hotkey_edit.h \
+    about_dialog.h
 SOURCES += host_switcher.cpp \
     host_config.cpp \
     main.cpp \
-	load_config_dialog.cpp \
+    load_config_dialog.cpp \
     set_hotkey_dialog.cpp \
-    hotkey_edit.cpp
+    hotkey_edit.cpp \
+    about_dialog.cpp
 FORMS += host_switcher.ui \
-	load_config_dialog.ui \
-    set_hotkey_dialog.ui
+    load_config_dialog.ui \
+    set_hotkey_dialog.ui \
+    about_dialog.ui
 RESOURCES += host_switcher.qrc
 OTHER_FILES += main_icon.rc \
     hs-launcher \

@@ -49,6 +49,9 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	setHotKeyDialog = new SetHotkeyDialog(this);
 	connect(ui.hotKeyButton, SIGNAL(clicked()), this, SLOT(showSetHotkeyDialog()));
 
+	aboutDialog = new AboutDialog(this);
+	connect(ui.aboutButton, SIGNAL(clicked()), this, SLOT(showAboutDialog()));
+
 	ui.itemListTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.itemListTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 	ui.itemListTableWidget->setFocus();
@@ -400,4 +403,8 @@ void HostSwitcher::showLoadConfigDialog() {
 
 void HostSwitcher::showSetHotkeyDialog() {
 	setHotKeyDialog->showMyself();
+}
+
+void HostSwitcher::showAboutDialog() {
+	aboutDialog->show();
 }
