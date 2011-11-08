@@ -375,7 +375,7 @@ void HostSwitcher::switchItemDown() {
 	}
 	QTableWidgetItem *item = ui.itemListTableWidget->item(next, 0);
 	item->setCheckState(Qt::Checked);
-	trayIcon->showMessage("Host Switcher", host_config_->section_list_[next].name_, QSystemTrayIcon::NoIcon, 3000);
+        trayIcon->showMessage("Host Switcher", host_config_->section_list_[next].name_, QSystemTrayIcon::NoIcon, 3000);
 }
 
 void HostSwitcher::switchItemUp() {
@@ -394,7 +394,7 @@ void HostSwitcher::switchItemUp() {
 	}
 	QTableWidgetItem *item = ui.itemListTableWidget->item(next, 0);
 	item->setCheckState(Qt::Checked);
-	trayIcon->showMessage("Host Switcher", host_config_->section_list_[next].name_, QSystemTrayIcon::NoIcon, 3000);
+        trayIcon->showMessage("Host Switcher", host_config_->section_list_[next].name_, QSystemTrayIcon::NoIcon, 3000);
 }
 
 void HostSwitcher::showLoadConfigDialog() {
