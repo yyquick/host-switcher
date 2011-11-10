@@ -105,3 +105,15 @@ void LoadPreviewDialog::saveConfig()
 	parent->selectItem(0);
 	this->close();
 }
+
+void LoadPreviewDialog::on_selectAllBox_stateChanged()
+{
+	Qt::CheckState state = ui->selectAllBox->checkState();
+	HostConfig::SectionListIter iter;
+	int i = 0;
+	for (iter = host_config_->section_list_.begin(); iter != host_config_->section_list_.end(); iter++) {
+		QTableWidgetItem *item = ui->itemListTableWidget->item(i, 0);
+		item->setCheckState(state);
+		i++;
+	}
+}

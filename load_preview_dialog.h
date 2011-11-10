@@ -28,6 +28,7 @@ public slots:
 	void on_itemListTableWidget_itemChanged(QTableWidgetItem *item);
 
 	void saveConfig();
+	void on_selectAllBox_stateChanged();
 
 private:
     Ui::LoadPreviewDialog *ui;

@@ -28,6 +28,10 @@
   <property name="windowTitle">
    <string>Set Hotkey</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="host_switcher.qrc">
+    <normaloff>:/images/switch.png</normaloff>:/images/switch.png</iconset>
+  </property>
   <widget class="HotkeyEdit" name="moveUpHotkeyEdit">
    <property name="geometry">
     <rect>
@@ -143,6 +147,8 @@
    <header>hotkey_edit.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="host_switcher.qrc"/>
+ </resources>
  <connections/>
 </ui>

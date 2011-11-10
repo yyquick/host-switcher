@@ -28,6 +28,10 @@
   <property name="windowTitle">
    <string>Load Host Config from Http Server</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="host_switcher.qrc">
+    <normaloff>:/images/switch.png</normaloff>:/images/switch.png</iconset>
+  </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
@@ -96,6 +100,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="host_switcher.qrc"/>
+ </resources>
  <connections/>
 </ui>
