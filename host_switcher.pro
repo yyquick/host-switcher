@@ -9,18 +9,22 @@ HEADERS += host_switcher.h \
     load_config_dialog.h \
     set_hotkey_dialog.h \
     hotkey_edit.h \
-    about_dialog.h
+    about_dialog.h \
+    load_preview_dialog.h
 SOURCES += host_switcher.cpp \
     host_config.cpp \
     main.cpp \
     load_config_dialog.cpp \
     set_hotkey_dialog.cpp \
     hotkey_edit.cpp \
-    about_dialog.cpp
+    about_dialog.cpp \
+    load_preview_dialog.cpp
 FORMS += host_switcher.ui \
     load_config_dialog.ui \
     set_hotkey_dialog.ui \
-    about_dialog.ui
+    about_dialog.ui \
+    about_dialog.ui \
+    load_preview_dialog.ui
 RESOURCES += host_switcher.qrc
 OTHER_FILES += main_icon.rc \
     hs-launcher \
