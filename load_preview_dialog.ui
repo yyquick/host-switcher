@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>LoadPreviewDialog</class>
  <widget class="QDialog" name="LoadPreviewDialog">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -18,17 +21,35 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>201</width>
+     <width>171</width>
      <height>441</height>
     </rect>
    </property>
+   <property name="showGrid">
+    <bool>false</bool>
+   </property>
+   <property name="gridStyle">
+    <enum>Qt::NoPen</enum>
+   </property>
+   <property name="wordWrap">
+    <bool>false</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>200</number>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
   </widget>
-  <widget class="QPlainTextEdit" name="contentEdit">
+  <widget class="QPlainTextEdit" name="contentEditor">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>190</x>
      <y>10</y>
-     <width>451</width>
+     <width>481</width>
      <height>441</height>
     </rect>
    </property>
@@ -74,5 +95,22 @@
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>LoadPreviewDialog</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>525</x>
+     <y>473</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>340</x>
+     <y>247</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

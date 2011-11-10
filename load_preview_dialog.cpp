@@ -19,29 +19,65 @@ void LoadPreviewDialog::showMyself(QString content)
 {
 	this->clearMyself();
 
-	host_config_->import_config_content('', content);
+	host_config_->import_config_content("", content);
 	ui->itemListTableWidget->setColumnCount(1);
 	ui->itemListTableWidget->setRowCount(host_config_->section_list_.count());
 	HostConfig::SectionListIter iter;
 	int i = 0;
 	for (iter = host_config_->section_list_.begin(); iter != host_config_->section_list_.end(); iter++) {
 		QTableWidgetItem *column = new QTableWidgetItem(iter->name_);
-		if (iter->is_enable_) {
-			column->setCheckState(Qt::Checked);
-		} else {
-			column->setCheckState(Qt::Unchecked);
-		}
+		column->setCheckState(Qt::Unchecked);
 		if (iter == host_config_->section_list_.begin()) {
 			column->setBackgroundColor(QColor(200, 200, 200));
-			column->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+			//column->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
 		}
 		ui->itemListTableWidget->setItem(i, 0, column);
 		i++;
 	}
+	this->show();
 }
 
 void LoadPreviewDialog::clearMyself()
 {
 	ui->itemListTableWidget->clear();
 	host_config_->section_list_.clear();
+}
+
+void LoadPreviewDialog::on_itemListTableWidget_itemSelectionChanged() {
+	int current_row = ui->itemListTableWidget->currentRow();
+	if (current_row < 0) {
+		return;
+	}
+	int row_count = ui->itemListTableWidget->rowCount();
+	int i;
+	for (i = 0; i < row_count; i++) {
+		QTableWidgetItem *item = ui->itemListTableWidget->item(i, 0);
+		QFont font = item->font();
+		font.setBold(false);
+		item->setFont(font);
+	}
+	QTableWidgetItem *cur_item = ui->itemListTableWidget->item(current_row, 0);
+	QFont font = cur_item->font();
+	font.setBold(true);
+	cur_item->setFont(font);
+
+	QTextDocument *current_doc = ui->contentEditor->document();
+	if (current_doc) {
+		current_doc->setPlainText(host_config_->section_list_[current_row].content_);
+	}
+	ui->contentEditor->setReadOnly(true);
+}
+
+void LoadPreviewDialog::on_itemListTableWidget_itemChanged(QTableWidgetItem *item) {
+	int row = item->row();
+	bool is_enable;
+	HostConfig::Section &cur_section = host_config_->section_list_[row];
+	if (item->checkState() == Qt::Unchecked) {
+		is_enable = false;
+	} else {
+		is_enable = true;
+	}
+	cur_section.is_enable_ = is_enable;
+	cur_section.name_ = item->text();
+
 }

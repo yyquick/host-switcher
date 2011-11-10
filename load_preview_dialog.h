@@ -1,6 +1,7 @@
 #ifndef LOAD_PREVIEW_DIALOG_H
 #define LOAD_PREVIEW_DIALOG_H
 
+#include <QTableWidgetItem>
 #include <QDialog>
 #include <QString>
 #include "host_config.h"
@@ -20,6 +21,10 @@ public:
 	HostConfig *host_config_;
 
 	void showMyself(QString content);
+
+public slots:
+	void on_itemListTableWidget_itemSelectionChanged();
+	void on_itemListTableWidget_itemChanged(QTableWidgetItem *item);
 
 private:
     Ui::LoadPreviewDialog *ui;

@@ -7,6 +7,7 @@
 #include "ui_host_switcher.h"
 #include "load_config_dialog.h"
 #include "set_hotkey_dialog.h"
+#include "load_preview_dialog.h"
 #include "about_dialog.h"
 #include "host_config.h"
 #include <qxtglobalshortcut.h>
@@ -31,6 +32,8 @@ public:
 	QxtGlobalShortcut *scRestore;
 	QxtGlobalShortcut *scSwitchDown;
 	QxtGlobalShortcut *scSwitchUp;
+
+	LoadPreviewDialog *loadPreviewDialog;
 
 	void resetItems();
 

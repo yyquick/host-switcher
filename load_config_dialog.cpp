@@ -44,7 +44,8 @@ void LoadConfigDialog::start_request()
 void LoadConfigDialog::http_finished()
 {
 	if (this->reply_->error() == QNetworkReply::NoError) {
-		parent_->host_config_->import_config_content(url_.toString(), this->result_);
+		parent_->loadPreviewDialog->showMyself(this->result_);
+		//parent_->host_config_->import_config_content(url_.toString(), this->result_);
 		this->ui->statusLabel->setText("");
 		this->close();
 		parent_->resetItems();
