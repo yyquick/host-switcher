@@ -52,7 +52,7 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	aboutDialog = new AboutDialog(this);
 	connect(ui.aboutButton, SIGNAL(clicked()), this, SLOT(showAboutDialog()));
 
-	loadPreviewDialog = new LoadPreviewDialog();
+	loadPreviewDialog = new LoadPreviewDialog(this);
 
 	ui.itemListTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.itemListTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);

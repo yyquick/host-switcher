@@ -5,9 +5,12 @@ LoadPreviewDialog::LoadPreviewDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoadPreviewDialog)
 {
+	this->parent = (HostSwitcher *)parent;
     ui->setupUi(this);
 
 	host_config_ = new HostConfig();
+
+	connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(saveConfig()));
 }
 
 LoadPreviewDialog::~LoadPreviewDialog()
@@ -35,6 +38,7 @@ void LoadPreviewDialog::showMyself(QString content)
 		i++;
 	}
 	this->show();
+	ui->itemListTableWidget->setCurrentItem(ui->itemListTableWidget->item(0, 0));
 }
 
 void LoadPreviewDialog::clearMyself()
@@ -79,5 +83,25 @@ void LoadPreviewDialog::on_itemListTableWidget_itemChanged(QTableWidgetItem *ite
 	}
 	cur_section.is_enable_ = is_enable;
 	cur_section.name_ = item->text();
+}
 
+void LoadPreviewDialog::saveConfig()
+{
+	HostConfig::SectionListIter iter;
+	int i = 0;
+	for (iter = host_config_->section_list_.begin(); iter != host_config_->section_list_.end(); iter++) {
+		QTableWidgetItem *item = ui->itemListTableWidget->item(i, 0);
+		if (item->checkState() == Qt::Checked) {
+			if (i == 0) {
+				this->parent->host_config_->merge(item->text(), iter->content_);
+			} else {
+				this->parent->host_config_->set(item->text(), iter->content_);
+			}
+		}
+		i++;
+	}
+	parent->host_config_->save_info();
+	parent->resetItems();
+	parent->selectItem(0);
+	this->close();
 }

@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QString>
 #include "host_config.h"
+#include "host_switcher.h"
 
 namespace Ui {
     class LoadPreviewDialog;
@@ -26,8 +27,12 @@ public slots:
 	void on_itemListTableWidget_itemSelectionChanged();
 	void on_itemListTableWidget_itemChanged(QTableWidgetItem *item);
 
+	void saveConfig();
+
 private:
     Ui::LoadPreviewDialog *ui;
+
+	HostSwitcher *parent;
 
 	void clearMyself();
 };

@@ -13,6 +13,9 @@ LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
 	connect(this->ui->loadButton, SIGNAL(clicked()), this, SLOT(start_request()));
 	connect(this->ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(start_request()));
 	connect(this->ui->cancelButton, SIGNAL(clicked()), this, SLOT(cancel()));
+
+	ui->cancelButton->setDefault(false);
+	ui->loadButton->setDefault(true);
 }
 
 LoadConfigDialog::~LoadConfigDialog()
@@ -44,6 +47,7 @@ void LoadConfigDialog::start_request()
 void LoadConfigDialog::http_finished()
 {
 	if (this->reply_->error() == QNetworkReply::NoError) {
+		parent_->host_config_->config_["last_load_url"] = url_.toString();
 		parent_->loadPreviewDialog->showMyself(this->result_);
 		//parent_->host_config_->import_config_content(url_.toString(), this->result_);
 		this->ui->statusLabel->setText("");

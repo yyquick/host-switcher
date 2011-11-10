@@ -47,10 +47,11 @@ public:
 	static QString HOTKEY_MOVE_DOWN_KEY;
 	static QString HOTKEY_RESTORE_KEY;
 
-protected:
-	QString config_file_path_;
 	void merge(QString name, QString content);
 	void set(QString name, QString content);
+
+protected:
+	QString config_file_path_;
 	int find(QString name);
 
 };

@@ -20,6 +20,7 @@ QT_END_NAMESPACE
 
 class LoadConfigDialog;
 class SetHotkeyDialog;
+class LoadPreviewDialog;
 
 class HostSwitcher: public QWidget {
 Q_OBJECT
