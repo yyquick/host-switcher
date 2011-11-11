@@ -16,6 +16,7 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	ui.saveInfoButton->setEnabled(false);
 
 	host_config_ = new HostConfig();
+	host_config_->parse_host_file();
 
 	createTrayIcon();
 

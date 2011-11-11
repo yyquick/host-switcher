@@ -52,7 +52,6 @@ HostConfig::HostConfig() {
 	// set the host file path
 	config_file_path_ = "/etc/hosts";
 #endif
-	parse_host_file();
 }
 
 HostConfig::~HostConfig() {
