@@ -55,7 +55,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Move Up</string>
+    <string>Switch Up</string>
    </property>
   </widget>
   <widget class="HotkeyEdit" name="moveDownHotkeyEdit">
@@ -81,7 +81,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Move Down</string>
+    <string>Switch Down</string>
    </property>
   </widget>
   <widget class="HotkeyEdit" name="restoreHotKeyEdit">
