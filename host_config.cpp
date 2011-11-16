@@ -11,7 +11,6 @@
 #include <QStringList>
 #include <QTextStream>
 #include <iostream>
-#include <QTextCodec>
 #ifdef Q_WS_WIN
 #include <windows.h>
 #include <tchar.h>
@@ -23,12 +22,6 @@ QString HostConfig::HOTKEY_RESTORE_KEY = "hotkey_restore";
 
 HostConfig::HostConfig() {
 #ifdef Q_WS_WIN
-	// set text codec
-	QTextCodec *gbk = QTextCodec::codecForName("gb18030");
-	QTextCodec::setCodecForTr(gbk);
-	QTextCodec::setCodecForLocale(gbk);
-	QTextCodec::setCodecForCStrings(gbk);
-
 	// set the host file path
 	#define INFO_BUFFER_SIZE 1000
 	TCHAR  infoBuf[INFO_BUFFER_SIZE];
@@ -43,12 +36,6 @@ HostConfig::HostConfig() {
 		config_file_path_ = "C:/Windows/System32/drivers/etc/hosts";
 	}
 #else
-	// set text codec
-	QTextCodec *utg8 = QTextCodec::codecForName("utf-8");
-	QTextCodec::setCodecForTr(utg8);
-	QTextCodec::setCodecForLocale(utg8);
-	QTextCodec::setCodecForCStrings(utg8);
-
 	// set the host file path
 	config_file_path_ = "/etc/hosts";
 #endif
@@ -213,7 +200,6 @@ void HostConfig::import_config_content(QString url, QString content) {
 		this->set(match_list[1], match_list[2]);
 	}
 	this->config_["last_load_url"] = url;
-	this->save_info();
 }
 
 void HostConfig::save_info() {

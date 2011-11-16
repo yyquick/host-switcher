@@ -2,6 +2,7 @@
 #include "ui_load_config_dialog.h"
 #include <QtNetwork>
 #include <QtDebug>
+#include <iostream>
 
 LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
     QDialog(parent),
@@ -37,9 +38,10 @@ void LoadConfigDialog::changeEvent(QEvent *e)
 
 void LoadConfigDialog::start_request()
 {
+	this->result_ = "";
 	url_.setUrl(this->ui->lineEdit->text());
 	reply_ = qnam_.get(QNetworkRequest(url_));
-	connect(reply_, SIGNAL(finished()),	this, SLOT(http_finished()));
+	connect(reply_, SIGNAL(finished()), this, SLOT(http_finished()));
 	connect(reply_, SIGNAL(readyRead()), this, SLOT(http_ready_read()));
 	this->ui->statusLabel->setText("Loading...");
 }
@@ -60,7 +62,7 @@ void LoadConfigDialog::http_finished()
 void LoadConfigDialog::http_ready_read()
 {
 	if (reply_->error() == QNetworkReply::NoError) {
-		this->result_ = reply_->readAll();
+		this->result_ += reply_->readAll();
 	}
 }
 

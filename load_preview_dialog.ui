@@ -124,7 +124,7 @@
    <sender>cancelButton</sender>
    <signal>clicked()</signal>
    <receiver>LoadPreviewDialog</receiver>
-   <slot>close()</slot>
+   <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>525</x>

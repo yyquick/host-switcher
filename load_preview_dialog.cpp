@@ -6,7 +6,7 @@ LoadPreviewDialog::LoadPreviewDialog(QWidget *parent) :
     ui(new Ui::LoadPreviewDialog)
 {
 	this->parent = (HostSwitcher *)parent;
-    ui->setupUi(this);
+	ui->setupUi(this);
 
 	host_config_ = new HostConfig();
 
