@@ -56,8 +56,8 @@ int main(int argc, char *argv[])
     w.show();
     int ret = a.exec();
 
-#ifdef Q_OS_MACX
-	AuthorizationFree(authRef, kAuthorizationFlagDefaults);
-#endif
+//#ifdef Q_OS_MACX
+//	AuthorizationFree(authRef, kAuthorizationFlagDefaults);
+//#endif
     return ret;
 }
