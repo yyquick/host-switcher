@@ -49,6 +49,7 @@ unix {
 }
 mac { 
     ICON = images/switch.icns
+    LIBS += -framework Security
     CONFIG -= x86_64
     CONFIG += x86
 }
