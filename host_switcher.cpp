@@ -110,6 +110,7 @@ void HostSwitcher::bindHotkeys()
 }
 
 void HostSwitcher::resetItems() {
+	this->resetTrayIconMenu();
 	ui.itemListTableWidget->setColumnCount(1);
 	ui.itemListTableWidget->setRowCount(host_config_->section_list_.count());
 	HostConfig::SectionListIter iter;
@@ -128,7 +129,6 @@ void HostSwitcher::resetItems() {
 		ui.itemListTableWidget->setItem(i, 0, column);
 		i++;
 	}
-	this->resetTrayIconMenu();
 }
 
 void HostSwitcher::on_addItemButton_clicked() {

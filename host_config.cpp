@@ -181,7 +181,7 @@ void HostConfig::set(QString name, QString content) {
 }
 
 void HostConfig::import_config_content(QString url, QString content) {
-	QRegExp	first_rx("(.*)###### HostSwitcher Item: (.+) Start ######");
+	QRegExp	first_rx("(.*)###### HostSwitcher");
 	first_rx.setMinimal(true);
 	if (first_rx.indexIn(content, 0) != -1) {
 		QStringList match_list = first_rx.capturedTexts();
