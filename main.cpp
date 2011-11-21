@@ -5,12 +5,13 @@
 #include <QTextCodec>
 #include <iostream>
 
-//#ifdef Q_OS_MACX
-//#include <CoreFoundation/CoreFoundation.h>
-//#include <Security/Security.h>
-//#include <asl.h>
-//#include <unistd.h>
-//#endif
+#ifdef Q_OS_MACX
+#include <CoreFoundation/CoreFoundation.h>
+#include <Security/Security.h>
+#include <asl.h>
+#include <unistd.h>
+#include <pwd.h>
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -29,26 +30,35 @@ int main(int argc, char *argv[])
 	QTextCodec::setCodecForCStrings(utg8);
 #endif
 
-//#ifdef Q_OS_MACX
-//	AuthorizationRef authRef;
-//	AuthorizationCreate(NULL, NULL, 0, &authRef);
-//	AuthorizationRightSet(authRef, "com.host-switcher.hosts.write", CFSTR(kAuthorizationRuleIsAdmin), CFSTR("modify hosts file"), NULL, NULL);
+#ifdef Q_OS_MACX
+	AuthorizationRef authRef;
+	AuthorizationCreate(NULL, NULL, 0, &authRef);
+	AuthorizationRightSet(authRef, "com.host-switcher.hosts.write", CFSTR(kAuthorizationRuleIsAdmin), CFSTR("modify hosts file"), NULL, NULL);
 
-//	AuthorizationRights rights, *gotRights;
-//	AuthorizationItem authItem[1];
-//	authItem[0].name = "com.host-switcher.hosts.write";
-//	authItem[0].valueLength = 0;
-//	authItem[0].value = NULL;
-//	authItem[0].flags = 0;
-//	rights.count = 1;
-//	rights.items = authItem;
+	AuthorizationRights rights, *gotRights;
+	AuthorizationItem authItem[1];
+	authItem[0].name = "com.host-switcher.hosts.write";
+	authItem[0].valueLength = 0;
+	authItem[0].value = NULL;
+	authItem[0].flags = 0;
+	rights.count = 1;
+	rights.items = authItem;
 
-//	OSStatus osst = AuthorizationCopyRights(authRef, &rights, kAuthorizationEmptyEnvironment, kAuthorizationFlagExtendRights | kAuthorizationFlagInteractionAllowed, &gotRights);
-//	std::cout << (*gotRights).items[0].name << std::endl;
+	OSStatus status = AuthorizationCopyRights(authRef, &rights, kAuthorizationEmptyEnvironment, kAuthorizationFlagExtendRights | kAuthorizationFlagInteractionAllowed, &gotRights);
+	if (status != errAuthorizationSuccess) {
+		exit(1);
+	}
 
-//	int retSetuid = setuid(0);
-//	std::cout << retSetuid << std::endl;
-//#endif
+	struct passwd *pwdInfo = getpwuid(getuid());
+	QString cmd = pwdInfo->pw_name;
+	AuthorizationFlags flags = kAuthorizationFlagDefaults;
+	const char * arguments[] = {"+a", cmd.toStdString().c_str(), "/etc/hosts", NULL};
+	status = AuthorizationExecuteWithPrivileges(authRef, "/bin/chmod", flags, (char **)arguments, NULL);
+	if (status != errAuthorizationSuccess) {
+		exit(1);
+	}
+
+#endif
     QApplication a(argc, argv);
     QApplication::setQuitOnLastWindowClosed(false);
 
@@ -56,8 +66,8 @@ int main(int argc, char *argv[])
     w.show();
     int ret = a.exec();
 
-//#ifdef Q_OS_MACX
-//	AuthorizationFree(authRef, kAuthorizationFlagDefaults);
-//#endif
+#ifdef Q_OS_MACX
+	AuthorizationFree(authRef, kAuthorizationFlagDefaults);
+#endif
     return ret;
 }

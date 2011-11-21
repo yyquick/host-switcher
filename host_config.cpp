@@ -90,7 +90,7 @@ void HostConfig::parse_host_file() {
 		return;
 	section_list_.clear();
 	QByteArray content = file.readAll();
-	QRegExp	first_rx("(.*)###### HostSwitcher Item: (.+) Start ######");
+	QRegExp	first_rx("(.*)###### HostSwitcher");
 	first_rx.setMinimal(true);
 	if (first_rx.indexIn(content.data(), 0) != -1) {
 		QStringList match_list = first_rx.capturedTexts();
