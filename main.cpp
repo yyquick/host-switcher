@@ -51,8 +51,9 @@ int main(int argc, char *argv[])
 
 	struct passwd *pwdInfo = getpwuid(getuid());
 	QString cmd = pwdInfo->pw_name;
+	cmd += " allow write";
 	AuthorizationFlags flags = kAuthorizationFlagDefaults;
-	const char * arguments[] = {"+a", cmd.toStdString().c_str(), "/etc/hosts", NULL};
+	const char * arguments[] = {"+a", cmd.toAscii().constData(), "/etc/hosts", NULL};
 	status = AuthorizationExecuteWithPrivileges(authRef, "/bin/chmod", flags, (char **)arguments, NULL);
 	if (status != errAuthorizationSuccess) {
 		exit(1);
