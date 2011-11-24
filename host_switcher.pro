@@ -31,7 +31,8 @@ OTHER_FILES += main_icon.rc \
     images/switch.png \
     install/hostswitcher.desktop \
     images/switch.icns \
-    images/switch.ico
+    images/switch.ico \
+    host-switcher.plist
 win32:RC_FILE = main_icon.rc
 unix { 
     images.files = images/*
@@ -48,8 +49,8 @@ unix {
     INSTALLS += target
 }
 mac { 
+    QMAKE_INFO_PLIST = host-switcher.plist
     ICON = images/switch.icns
     LIBS += -framework Security
-    CONFIG -= x86_64
-    CONFIG += x86
 }
+
