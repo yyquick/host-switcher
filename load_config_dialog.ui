@@ -9,17 +9,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>84</height>
+    <width>561</width>
+    <height>348</height>
    </rect>
   </property>
   <property name="minimumSize">
-   <size>
-    <width>480</width>
-    <height>84</height>
-   </size>
-  </property>
-  <property name="maximumSize">
    <size>
     <width>480</width>
     <height>84</height>
@@ -42,8 +36,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
-     <width>461</width>
+     <y>30</y>
+     <width>541</width>
      <height>31</height>
     </rect>
    </property>
@@ -51,8 +45,8 @@
   <widget class="QLabel" name="statusLabel">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>53</y>
+     <x>10</x>
+     <y>70</y>
      <width>281</width>
      <height>20</height>
     </rect>
@@ -70,8 +64,8 @@
   <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>50</y>
+     <x>480</x>
+     <y>70</y>
      <width>71</width>
      <height>27</height>
     </rect>
@@ -83,8 +77,8 @@
   <widget class="QPushButton" name="loadButton">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>50</y>
+     <x>400</x>
+     <y>70</y>
      <width>71</width>
      <height>27</height>
     </rect>
@@ -97,6 +91,68 @@
    </property>
    <property name="flat">
     <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QTableView" name="clientsTableView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>541</width>
+     <height>191</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="ipFilterEdit">
+   <property name="geometry">
+    <rect>
+     <x>342</x>
+     <y>310</y>
+     <width>131</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>192.168.111.111</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="searchButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>310</y>
+     <width>71</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>541</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Input remote config's URL or the other client's IP</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>312</y>
+     <width>291</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Search and select your neighbor clients</string>
    </property>
   </widget>
  </widget>
