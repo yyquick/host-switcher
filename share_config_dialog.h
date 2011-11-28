@@ -30,8 +30,10 @@ private slots:
 
 private:
     Ui::ShareConfigDialog *ui;
-
 	HostSwitcher *parent;
+	bool lock;
+
+	void updateCheckBox();
 };
 
 #endif // SHARE_CONFIG_DIALOG_H

@@ -99,6 +99,9 @@
    <property name="text">
     <string>Select all</string>
    </property>
+   <property name="tristate">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="saveButton">
    <property name="geometry">

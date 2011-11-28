@@ -6,6 +6,7 @@ ShareConfigDialog::ShareConfigDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ShareConfigDialog)
 {
+	lock = false;
 	this->parent = (HostSwitcher *)parent;
     ui->setupUi(this);
 
@@ -18,6 +19,7 @@ ShareConfigDialog::~ShareConfigDialog()
 }
 
 void ShareConfigDialog::show() {
+	lock = true;
 	ui->configItemTableWidget->clear();
 	ui->configItemTableWidget->setColumnCount(1);
 	ui->configItemTableWidget->setRowCount(parent->host_config_->section_list_.count());
@@ -33,6 +35,8 @@ void ShareConfigDialog::show() {
 		ui->configItemTableWidget->setItem(i, 0, column);
 		i++;
 	}
+	updateCheckBox();
+	lock = false;
 	QDialog::show();
 }
 
@@ -55,6 +59,36 @@ void ShareConfigDialog::save()
 
 void ShareConfigDialog::on_configItemTableWidget_itemChanged(QTableWidgetItem *changedItem)
 {
+	if (lock) {
+		return;
+	}
+	updateCheckBox();
+}
+
+void ShareConfigDialog::on_selectAllCheckBox_clicked()
+{
+	lock = true;
+	Qt::CheckState state;
+	if (ui->selectAllCheckBox->checkState() == Qt::Checked) {
+		state = Qt::Checked;
+	} else if (ui->selectAllCheckBox->checkState() == Qt::PartiallyChecked) {
+		state = Qt::Checked;
+	} else {
+		state = Qt::Unchecked;
+	}
+	ui->selectAllCheckBox->setCheckState(state);
+	int rowCount = ui->configItemTableWidget->rowCount();
+	int i = 0;
+	QTableWidgetItem *item;
+	for (i = 0; i < rowCount; i++) {
+		item = ui->configItemTableWidget->item(i, 0);
+		item->setCheckState(state);
+	}
+	lock = false;
+}
+
+void ShareConfigDialog::updateCheckBox()
+{
 	int rowCount = ui->configItemTableWidget->rowCount();
 	int i, c = 0;
 	QTableWidgetItem *item;
@@ -65,15 +99,10 @@ void ShareConfigDialog::on_configItemTableWidget_itemChanged(QTableWidgetItem *c
 		}
 	}
 	if (c == rowCount) {
-		ui->selectAllCheckBox->setChecked(true);
+		ui->selectAllCheckBox->setCheckState(Qt::Checked);
 	} else if (c == 0) {
-		ui->selectAllCheckBox->setChecked(false);
+		ui->selectAllCheckBox->setCheckState(Qt::Unchecked);
 	} else {
 		ui->selectAllCheckBox->setCheckState(Qt::PartiallyChecked);
 	}
-}
-
-void ShareConfigDialog::on_selectAllCheckBox_clicked()
-{
-
 }
