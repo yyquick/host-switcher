@@ -50,6 +50,7 @@ HostConfig::Section::Section(QString name, QString raw_content) {
 	QTextStream stream(&content_);
 	QString line;
 	is_enable_ = false;
+	share_ = false;
 	while (!raw_stream.atEnd()) {
 		line = raw_stream.readLine().trimmed();
 		if (!line.isEmpty()) {
@@ -100,7 +101,7 @@ void HostConfig::parse_host_file() {
 		Section first_sec("Common", content);
 		section_list_.append(first_sec);
 	}
-	QRegExp	rx("###### HostSwitcher Item: (.+) Start ######(.+)###### HostSwitcher Item: .+ End ######");
+	QRegExp	rx("###### HostSwitcher Item: (.+) Start ######(.+)###### HostSwitcher Item: .+ End( share)? ######");
 	rx.setMinimal(true);
 
 	int pos = 0;
@@ -108,6 +109,9 @@ void HostConfig::parse_host_file() {
 		pos += rx.matchedLength();
 		QStringList match_list = rx.capturedTexts();
 		Section sec(match_list[1], match_list[2]);
+		if (match_list[3] == " share") {
+			sec.share_ = true;
+		}
 		section_list_.append(sec);
 	}
 
@@ -126,6 +130,9 @@ void HostConfig::parse_host_file() {
 			QString value = match_list[2];
 			config_[key] = value;
 		}
+	}
+	if (config_["share_common"] == "true") {
+		section_list_[0].share_ = true;
 	}
 #ifdef Q_OS_MAC
 	if (config_[HostConfig::HOTKEY_MOVE_UP_KEY] == "") {
@@ -226,11 +233,19 @@ void HostConfig::save_info() {
 			}
 		}
 		if (iter != section_list_.begin()) {
-			write_stream << "###### HostSwitcher Item: " << iter->name_ << " End ######" << endl;
+			if (iter->share_) {
+				write_stream << "###### HostSwitcher Item: " << iter->name_ << " End share ######" << endl;
+			} else {
+				write_stream << "###### HostSwitcher Item: " << iter->name_ << " End ######" << endl;
+			}
 		}
 	}
 	write_stream << "###### HostSwitcher Config Start ######" << endl;
-	//write_stream << "## last_load_url: " << this->last_load_url_ << endl;
+	if (section_list_[0].share_) {
+		config_["share_common"] = "true";
+	} else {
+		config_["share_common"] = "false";
+	}
 	HostConfig::ConfigIter config_iter;
 	for (config_iter = config_.begin(); config_iter != config_.end(); config_iter++) {
 		write_stream << "## " << config_iter.key() << ": " << config_iter.value() << endl;

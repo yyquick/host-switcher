@@ -30,6 +30,7 @@ public:
 		QString name_;
 		QString content_;
 		bool is_enable_;
+		bool share_;
 
 		Section(QString name, QString raw_content);
 		~Section();

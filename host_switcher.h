@@ -9,6 +9,7 @@
 #include "set_hotkey_dialog.h"
 #include "load_preview_dialog.h"
 #include "about_dialog.h"
+#include "share_config_dialog.h"
 #include "host_config.h"
 #include <qxtglobalshortcut.h>
 
@@ -21,6 +22,7 @@ QT_END_NAMESPACE
 class LoadConfigDialog;
 class SetHotkeyDialog;
 class LoadPreviewDialog;
+class ShareConfigDialog;
 
 class HostSwitcher: public QWidget {
 Q_OBJECT
@@ -52,6 +54,7 @@ private:
 	LoadConfigDialog *load_config_dialog_;
 	SetHotkeyDialog *setHotKeyDialog;
 	AboutDialog *aboutDialog;
+	ShareConfigDialog *shareConfigDialog;
 
 	void createTrayIcon();
 	void resetTrayIconMenu();

@@ -53,6 +53,9 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	aboutDialog = new AboutDialog(this);
 	connect(ui.aboutButton, SIGNAL(clicked()), this, SLOT(showAboutDialog()));
 
+	shareConfigDialog = new ShareConfigDialog(this);
+	connect(ui.shareButton, SIGNAL(clicked()), shareConfigDialog, SLOT(show()));
+
 	loadPreviewDialog = new LoadPreviewDialog(this);
 
 	ui.itemListTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
