@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QUdpSocket>
 #include <QByteArray>
+#include <QList>
+#include <QHostAddress>
+#include <QString>
 
 class PingServer : public QObject
 {
@@ -14,8 +17,14 @@ public:
 		Info
 	};
 
-    explicit PingServer(QObject *parent = 0);
+	struct ClientInfo {
+		QHostAddress addr;
+		QString hostname;
+	};
 
+	QList< ClientInfo > clientInfos;
+
+    explicit PingServer(QObject *parent = 0);
 	void initServer();
 
 signals:
