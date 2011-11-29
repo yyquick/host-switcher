@@ -12,7 +12,8 @@ HEADERS += host_switcher.h \
     about_dialog.h \
     load_preview_dialog.h \
     data_server.h \
-    share_config_dialog.h
+    share_config_dialog.h \
+    ping_server.h
 SOURCES += host_switcher.cpp \
     host_config.cpp \
     main.cpp \
@@ -22,7 +23,8 @@ SOURCES += host_switcher.cpp \
     about_dialog.cpp \
     load_preview_dialog.cpp \
     data_server.cpp \
-    share_config_dialog.cpp
+    share_config_dialog.cpp \
+    ping_server.cpp
 FORMS += host_switcher.ui \
     load_config_dialog.ui \
     set_hotkey_dialog.ui \
@@ -58,4 +60,3 @@ mac {
     ICON = images/switch.icns
     LIBS += -framework Security
 }
-
