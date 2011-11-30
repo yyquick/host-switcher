@@ -2,6 +2,8 @@
 #include <QHostInfo>
 #include <QRegExp>
 
+#include <iostream>
+
 PingServer::PingServer(QObject *parent) :
     QObject(parent)
 {
@@ -67,7 +69,8 @@ void PingServer::ping(QHostAddress &receiver)
 	short len;
 	len = 3;
 	data.append((char *)&len, 2);
-	udpSocket->writeDatagram(data, receiver, 12312);
+	QUdpSocket usock;
+	usock.writeDatagram(data, receiver, 12312);
 }
 
 void PingServer::recordClient(QHostAddress &addr, QString hostName)

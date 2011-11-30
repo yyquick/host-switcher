@@ -9,6 +9,7 @@
 #include <QHostAddress>
 #include <QStringList>
 #include <QString>
+#include <QAbstractSocket>
 
 LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
     QDialog(parent),
@@ -28,8 +29,7 @@ LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
 
 	QString myIP, network;
 	foreach (QHostAddress addr, ipList) {
-		std::cout << addr.toString().toStdString() << std::endl;
-		if (addr.toIPv4Address() >> 24 != 127) {
+		if (addr.toIPv4Address() >> 24 != 127 && addr.protocol() == QAbstractSocket::IPv4Protocol) {
 			myIP = addr.toString();
 			break;
 		}
