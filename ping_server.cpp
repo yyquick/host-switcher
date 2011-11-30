@@ -39,7 +39,7 @@ void PingServer::processTheDatagram(QByteArray datagram, QHostAddress &sender)
 	char type = datagram[0];
 	datagram.remove(0, 1);
 	short len = *(short *)datagram.data();
-	if (len != datagram.length()) {
+	if (len != datagram.length() + 1) {
 		return;
 	}
 	datagram.remove(0, 2);
