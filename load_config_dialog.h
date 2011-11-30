@@ -33,11 +33,14 @@ private:
 	QNetworkReply *reply_;
 	QString result_;
 
-private slots:
+public slots:
 	void start_request();
 	void http_finished();
 	void http_ready_read();
 	void cancel();
+	void refreshClients();
+
+	void on_searchButton_clicked();
 };
 
 #endif // LOAD_CONFIG_DIALOG_H

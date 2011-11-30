@@ -65,6 +65,9 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	this->bindHotkeys();
 
 	this->selectItem(0);
+
+	pingServer = new PingServer(this);
+	pingServer->initServer();
 }
 
 HostSwitcher::~HostSwitcher() {

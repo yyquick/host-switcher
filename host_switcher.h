@@ -11,6 +11,7 @@
 #include "about_dialog.h"
 #include "share_config_dialog.h"
 #include "host_config.h"
+#include "ping_server.h"
 #include <qxtglobalshortcut.h>
 
 QT_BEGIN_NAMESPACE
@@ -23,6 +24,7 @@ class LoadConfigDialog;
 class SetHotkeyDialog;
 class LoadPreviewDialog;
 class ShareConfigDialog;
+class PingServer;
 
 class HostSwitcher: public QWidget {
 Q_OBJECT
@@ -36,7 +38,9 @@ public:
 	QxtGlobalShortcut *scSwitchDown;
 	QxtGlobalShortcut *scSwitchUp;
 
+	LoadConfigDialog *load_config_dialog_;
 	LoadPreviewDialog *loadPreviewDialog;
+	PingServer *pingServer;
 
 	void resetItems();
 
@@ -51,7 +55,6 @@ private:
     QAction *quitAction;
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
-	LoadConfigDialog *load_config_dialog_;
 	SetHotkeyDialog *setHotKeyDialog;
 	AboutDialog *aboutDialog;
 	ShareConfigDialog *shareConfigDialog;

@@ -1,8 +1,14 @@
 #include "load_config_dialog.h"
 #include "ui_load_config_dialog.h"
+#include "ping_server.h"
 #include <QtNetwork>
 #include <QtDebug>
 #include <iostream>
+#include <QNetworkInterface>
+#include <QList>
+#include <QHostAddress>
+#include <QStringList>
+#include <QString>
 
 LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
     QDialog(parent),
@@ -17,6 +23,21 @@ LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
 
 	ui->cancelButton->setDefault(false);
 	ui->loadButton->setDefault(true);
+
+	QList<QHostAddress> ipList = QNetworkInterface::allAddresses();
+
+	QString myIP, network;
+	foreach (QHostAddress addr, ipList) {
+		std::cout << addr.toString().toStdString() << std::endl;
+		if (addr.toIPv4Address() >> 24 != 127) {
+			myIP = addr.toString();
+			break;
+		}
+	}
+	QStringList parts = myIP.split('.');
+	parts.last() = "*";
+	network = parts.join(".");
+	ui->ipFilterEdit->setText(network);
 }
 
 LoadConfigDialog::~LoadConfigDialog()
@@ -83,4 +104,25 @@ void LoadConfigDialog::cancel() {
 		reply_->abort();
 	}
 	reject();
+}
+
+void LoadConfigDialog::refreshClients() {
+	ui->clientsTableWidget->setColumnCount(1);
+	ui->clientsTableWidget->setRowCount(parent_->pingServer->clients.count());
+
+	PingServer *pingServer = parent_->pingServer;
+	PingServer::ClientIterator iter;
+	int i = 0;
+	for (iter = pingServer->clients.begin(); iter != pingServer->clients.end(); iter++) {
+		QTableWidgetItem *item = new QTableWidgetItem(iter.value());
+		item->setStatusTip(iter.key());
+		ui->clientsTableWidget->setItem(i, 0, item);
+		i++;
+	}
+}
+
+void LoadConfigDialog::on_searchButton_clicked()
+{
+	QString network = ui->ipFilterEdit->text();
+	parent_->pingServer->searchClients(network);
 }
