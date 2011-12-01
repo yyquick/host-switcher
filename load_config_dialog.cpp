@@ -133,7 +133,7 @@ void LoadConfigDialog::refreshClients() {
 	for (iter = pingServer->clients.begin(); iter != pingServer->clients.end(); iter++) {
 		QTableWidgetItem *item = new QTableWidgetItem(iter.value());
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		item->setIcon(QIcon("images/computer.gif"));
+		item->setIcon(QIcon(":/images/computer.gif"));
 		item->setToolTip(iter.key());
 		ui->clientsTableWidget->setItem(i / 3, i % 3, item);
 		i++;
