@@ -9,6 +9,8 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 
 	ui.setupUi(this);
 
+	lock = true;
+
 	Qt::WindowFlags flags = 0;
 	flags |= Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint;
 	setWindowFlags(flags); // forbid maximum the window
@@ -70,6 +72,8 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 	pingServer->initServer();
 
 	dataServer = new DataServer(this);
+
+	lock = false;
 }
 
 HostSwitcher::~HostSwitcher() {
@@ -205,6 +209,10 @@ void HostSwitcher::on_saveInfoButton_clicked() {
 }
 
 void HostSwitcher::on_itemListTableWidget_itemSelectionChanged() {
+	if (lock) {
+		return;
+	}
+
 	int current_row = ui.itemListTableWidget->currentRow();
 	if (current_row < 0) {
 		return;
@@ -247,6 +255,10 @@ void HostSwitcher::on_itemListTableWidget_itemSelectionChanged() {
 }
 
 void HostSwitcher::on_itemListTableWidget_itemChanged(QTableWidgetItem *item) {
+	if (lock) {
+		return;
+	}
+
 	int row = item->row();
 	bool is_enable;
 	HostConfig::Section &cur_section = host_config_->section_list_[row];

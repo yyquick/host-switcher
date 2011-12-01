@@ -15,8 +15,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>480</width>
-    <height>84</height>
+    <width>561</width>
+    <height>348</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>561</width>
+    <height>348</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -103,7 +109,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>192.168.111.111</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="searchButton">
@@ -142,7 +148,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Search and select your neighbor clients</string>
+    <string>Search and select your neighbors</string>
    </property>
   </widget>
   <widget class="QTableWidget" name="clientsTableWidget">
@@ -159,6 +165,12 @@
    </property>
    <property name="selectionMode">
     <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
    </property>
    <property name="showGrid">
     <bool>false</bool>

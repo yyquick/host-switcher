@@ -62,6 +62,8 @@ private:
 	AboutDialog *aboutDialog;
 	ShareConfigDialog *shareConfigDialog;
 
+	bool lock;
+
 	void createTrayIcon();
 	void resetTrayIconMenu();
 

@@ -10,6 +10,7 @@
 #include <QStringList>
 #include <QString>
 #include <QAbstractSocket>
+#include <QIcon>
 
 LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
     QDialog(parent),
