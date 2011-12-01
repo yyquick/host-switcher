@@ -66,6 +66,7 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 
 	this->bindHotkeys();
 
+	lock = false;
 	this->selectItem(0);
 
 	pingServer = new PingServer(this);
@@ -73,7 +74,6 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 
 	dataServer = new DataServer(this);
 
-	lock = false;
 }
 
 HostSwitcher::~HostSwitcher() {
