@@ -33,6 +33,8 @@ private:
 	QNetworkReply *reply_;
 	QString result_;
 
+	bool lock;
+
 public slots:
 	void start_request();
 	void http_finished();
@@ -41,6 +43,7 @@ public slots:
 	void refreshClients();
 
 	void on_searchButton_clicked();
+	void on_clientsTableWidget_itemSelectionChanged();
 };
 
 #endif // LOAD_CONFIG_DIALOG_H

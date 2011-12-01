@@ -2,22 +2,35 @@
 #define DATA_SERVER_H
 
 #include <QTcpServer>
+#include <QTcpSocket>
 #include "host_switcher.h"
+
+#define HS_DATA_SERVER_PORT 12312
 
 class DataServer : public QTcpServer
 {
     Q_OBJECT
 public:
     explicit DataServer(QObject *parent = 0);
+	void incomingConnection(int socket);
 
-protected:
+	void pause()
+	{
+		disabled = true;
+	}
+
+	void resume()
+	{
+		disabled = false;
+	}
+
+private slots:
+	void readClient();
+	void discardClient();
+
+private:
+	bool disabled;
 	HostSwitcher *parent;
-
-signals:
-
-public slots:
-	void on_newConnection();
-
 };
 
 #endif // DATA_SERVER_H

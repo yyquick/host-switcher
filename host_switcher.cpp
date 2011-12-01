@@ -68,6 +68,8 @@ HostSwitcher::HostSwitcher(QWidget *parent) :
 
 	pingServer = new PingServer(this);
 	pingServer->initServer();
+
+	dataServer = new DataServer(this);
 }
 
 HostSwitcher::~HostSwitcher() {

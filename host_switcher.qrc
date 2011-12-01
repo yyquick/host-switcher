@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>images/switch.png</file>
+        <file>images/computer.gif</file>
     </qresource>
 </RCC>

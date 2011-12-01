@@ -38,6 +38,13 @@ LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
 	parts.last() = "*";
 	network = parts.join(".");
 	ui->ipFilterEdit->setText(network);
+
+	ui->clientsTableWidget->setColumnCount(3);
+	ui->clientsTableWidget->setColumnWidth(0, 179);
+	ui->clientsTableWidget->setColumnWidth(1, 179);
+	ui->clientsTableWidget->setColumnWidth(2, 179);
+
+	lock = false;
 }
 
 LoadConfigDialog::~LoadConfigDialog()
@@ -60,7 +67,12 @@ void LoadConfigDialog::changeEvent(QEvent *e)
 void LoadConfigDialog::start_request()
 {
 	this->result_ = "";
-	url_.setUrl(this->ui->lineEdit->text());
+	QString url;
+	url = this->ui->lineEdit->text();
+	if (!url.startsWith("http://")) {
+		url = QString("http://") + url + QString(":") + QString::number(HS_DATA_SERVER_PORT);
+	}
+	url_.setUrl(url);
 	reply_ = qnam_.get(QNetworkRequest(url_));
 	connect(reply_, SIGNAL(finished()), this, SLOT(http_finished()));
 	connect(reply_, SIGNAL(readyRead()), this, SLOT(http_ready_read()));
@@ -70,10 +82,12 @@ void LoadConfigDialog::start_request()
 void LoadConfigDialog::http_finished()
 {
 	if (this->reply_->error() == QNetworkReply::NoError) {
-		parent_->host_config_->config_["last_load_url"] = url_.toString();
+		QString url = this->ui->lineEdit->text();
+		if (url.startsWith("http://")) {
+			parent_->host_config_->config_["last_load_url"] = url;
+		}
 		parent_->loadPreviewDialog->showMyself(this->result_);
 		this->ui->statusLabel->setText("");
-		this->close();
 	} else {
 		this->ui->statusLabel->setText(this->reply_->errorString());
 		this->ui->statusLabel->setToolTip(this->reply_->errorString());
@@ -88,6 +102,7 @@ void LoadConfigDialog::http_ready_read()
 }
 
 void LoadConfigDialog::show_myself() {
+	ui->clientsTableWidget->setCurrentItem(ui->clientsTableWidget->currentItem(), QItemSelectionModel::Clear);
 	QString url = parent_->host_config_->config_["last_load_url"];
 	if (url != "") {
 		ui->lineEdit->setText(url);
@@ -96,6 +111,7 @@ void LoadConfigDialog::show_myself() {
 	}
 	ui->lineEdit->selectAll();
 	ui->lineEdit->setFocus();
+	on_searchButton_clicked();
 	show();
 }
 
@@ -103,11 +119,11 @@ void LoadConfigDialog::cancel() {
 	if (reply_) {
 		reply_->abort();
 	}
-	reject();
+	hide();
 }
 
 void LoadConfigDialog::refreshClients() {
-	ui->clientsTableWidget->setColumnCount(1);
+	lock = true;
 	ui->clientsTableWidget->setRowCount(parent_->pingServer->clients.count());
 
 	PingServer *pingServer = parent_->pingServer;
@@ -115,14 +131,28 @@ void LoadConfigDialog::refreshClients() {
 	int i = 0;
 	for (iter = pingServer->clients.begin(); iter != pingServer->clients.end(); iter++) {
 		QTableWidgetItem *item = new QTableWidgetItem(iter.value());
-		item->setStatusTip(iter.key());
-		ui->clientsTableWidget->setItem(i, 0, item);
+		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		item->setIcon(QIcon("images/computer.gif"));
+		item->setToolTip(iter.key());
+		ui->clientsTableWidget->setItem(i / 3, i % 3, item);
 		i++;
 	}
+	lock = false;
 }
 
 void LoadConfigDialog::on_searchButton_clicked()
 {
+	ui->clientsTableWidget->clear();
 	QString network = ui->ipFilterEdit->text();
 	parent_->pingServer->searchClients(network);
+}
+
+void LoadConfigDialog::on_clientsTableWidget_itemSelectionChanged()
+{
+	if (lock) {
+		return;
+	}
+
+	QTableWidgetItem *item = ui->clientsTableWidget->currentItem();
+	ui->lineEdit->setText(item->toolTip());
 }

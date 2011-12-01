@@ -12,6 +12,7 @@
 #include "share_config_dialog.h"
 #include "host_config.h"
 #include "ping_server.h"
+#include "data_server.h"
 #include <qxtglobalshortcut.h>
 
 QT_BEGIN_NAMESPACE
@@ -25,6 +26,7 @@ class SetHotkeyDialog;
 class LoadPreviewDialog;
 class ShareConfigDialog;
 class PingServer;
+class DataServer;
 
 class HostSwitcher: public QWidget {
 Q_OBJECT
@@ -41,6 +43,7 @@ public:
 	LoadConfigDialog *load_config_dialog_;
 	LoadPreviewDialog *loadPreviewDialog;
 	PingServer *pingServer;
+	DataServer *dataServer;
 
 	void resetItems();
 

@@ -253,6 +253,32 @@ void HostConfig::save_info() {
 	write_stream << "###### HostSwitcher Config End ######" << endl;
 }
 
+QString HostConfig::getShareData()
+{
+	QString result;
+	QTextStream write_stream(&result);
+	HostConfig::SectionListIter iter;
+	for (iter = section_list_.begin(); iter != section_list_.end(); iter++) {
+		if (iter->share_) {
+			if (iter != section_list_.begin()) {
+				write_stream << "###### HostSwitcher Item: " << iter->name_ << " Start ######" << endl;
+			}
+			QTextStream content_stream(&(iter->content_));
+			while (!content_stream.atEnd()) {
+				QString line;
+				line = content_stream.readLine().trimmed();
+				if (!line.isEmpty()) {
+					write_stream << line << endl;
+				}
+			}
+			if (iter != section_list_.begin()) {
+				write_stream << "###### HostSwitcher Item: " << iter->name_ << " End ######" << endl;
+			}
+		}
+	}
+	return result;
+}
+
 void HostConfig::append_item(QString name, QString content) {
 	Section sec(name, content);
 	sec.is_enable_ = false;
@@ -261,4 +287,14 @@ void HostConfig::append_item(QString name, QString content) {
 
 void HostConfig::delete_item(int i) {
 	section_list_.removeAt(i);
+}
+
+bool HostConfig::hasShareData() {
+	HostConfig::SectionListIter iter;
+	for (iter = section_list_.begin(); iter != section_list_.end(); iter++) {
+		if (iter->share_) {
+			return true;
+		}
+	}
+	return false;
 }

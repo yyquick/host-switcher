@@ -50,6 +50,8 @@ public:
 
 	void merge(QString name, QString content);
 	void set(QString name, QString content);
+	QString getShareData();
+	bool hasShareData();
 
 protected:
 	QString config_file_path_;

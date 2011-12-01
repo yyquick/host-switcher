@@ -39,7 +39,8 @@ OTHER_FILES += main_icon.rc \
     install/hostswitcher.desktop \
     images/switch.icns \
     images/switch.ico \
-    host-switcher.plist
+    host-switcher.plist \
+    images/computer.gif
 win32:RC_FILE = main_icon.rc
 unix { 
     images.files = images/*

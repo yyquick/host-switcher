@@ -9,6 +9,8 @@
 #include <QString>
 #include "host_switcher.h"
 
+#define HS_PING_SERVER_PORT 12312
+
 class HostSwitcher;
 
 class PingServer : public QObject
