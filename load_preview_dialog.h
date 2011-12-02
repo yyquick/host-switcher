@@ -28,14 +28,15 @@ public slots:
 	void on_itemListTableWidget_itemChanged(QTableWidgetItem *item);
 
 	void saveConfig();
-	void on_selectAllBox_stateChanged();
+	void on_selectAllBox_clicked();
 
 private:
     Ui::LoadPreviewDialog *ui;
-
 	HostSwitcher *parent;
+	bool lock;
 
 	void clearMyself();
+	void updateCheckBox();
 };
 
 #endif // LOAD_PREVIEW_DIALOG_H

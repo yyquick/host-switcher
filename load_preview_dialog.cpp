@@ -11,6 +11,7 @@ LoadPreviewDialog::LoadPreviewDialog(QWidget *parent) :
 	host_config_ = new HostConfig();
 
 	connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(saveConfig()));
+	lock = false;
 }
 
 LoadPreviewDialog::~LoadPreviewDialog()
@@ -20,6 +21,7 @@ LoadPreviewDialog::~LoadPreviewDialog()
 
 void LoadPreviewDialog::showMyself(QString content)
 {
+	lock = true;
 	this->clearMyself();
 
 	host_config_->import_config_content("", content);
@@ -38,6 +40,7 @@ void LoadPreviewDialog::showMyself(QString content)
 		i++;
 	}
 	this->show();
+	lock = false;
 	ui->itemListTableWidget->setCurrentItem(ui->itemListTableWidget->item(0, 0));
 }
 
@@ -48,6 +51,10 @@ void LoadPreviewDialog::clearMyself()
 }
 
 void LoadPreviewDialog::on_itemListTableWidget_itemSelectionChanged() {
+	if (lock) {
+		return;
+	}
+
 	int current_row = ui->itemListTableWidget->currentRow();
 	if (current_row < 0) {
 		return;
@@ -73,6 +80,10 @@ void LoadPreviewDialog::on_itemListTableWidget_itemSelectionChanged() {
 }
 
 void LoadPreviewDialog::on_itemListTableWidget_itemChanged(QTableWidgetItem *item) {
+	if (lock) {
+		return;
+	}
+
 	int row = item->row();
 	bool is_enable;
 	HostConfig::Section &cur_section = host_config_->section_list_[row];
@@ -83,6 +94,8 @@ void LoadPreviewDialog::on_itemListTableWidget_itemChanged(QTableWidgetItem *ite
 	}
 	cur_section.is_enable_ = is_enable;
 	cur_section.name_ = item->text();
+
+	updateCheckBox();
 }
 
 void LoadPreviewDialog::saveConfig()
@@ -103,12 +116,24 @@ void LoadPreviewDialog::saveConfig()
 	parent->host_config_->save_info();
 	parent->resetItems();
 	parent->selectItem(0);
-	this->close();
+	parent->load_config_dialog_->hide();
+	this->hide();
 }
 
-void LoadPreviewDialog::on_selectAllBox_stateChanged()
+void LoadPreviewDialog::on_selectAllBox_clicked()
 {
-	Qt::CheckState state = ui->selectAllBox->checkState();
+	if (lock) {
+		return;
+	}
+
+	Qt::CheckState state;
+	if (ui->selectAllBox->checkState() == Qt::Checked) {
+		state = Qt::Checked;
+	} else if (ui->selectAllBox->checkState() == Qt::PartiallyChecked) {
+		state = Qt::Checked;
+	} else {
+		state = Qt::Unchecked;
+	}
 	HostConfig::SectionListIter iter;
 	int i = 0;
 	for (iter = host_config_->section_list_.begin(); iter != host_config_->section_list_.end(); iter++) {
@@ -116,4 +141,27 @@ void LoadPreviewDialog::on_selectAllBox_stateChanged()
 		item->setCheckState(state);
 		i++;
 	}
+
+}
+
+void LoadPreviewDialog::updateCheckBox()
+{
+	int rowCount = ui->itemListTableWidget->rowCount();
+	int i, c = 0;
+	QTableWidgetItem *item;
+	for (i = 0; i < rowCount; i++) {
+		item = ui->itemListTableWidget->item(i, 0);
+		if (item->checkState() == Qt::Checked) {
+			c++;
+		}
+	}
+	lock = true;
+	if (c == rowCount) {
+		ui->selectAllBox->setCheckState(Qt::Checked);
+	} else if (c == 0) {
+		ui->selectAllBox->setCheckState(Qt::Unchecked);
+	} else {
+		ui->selectAllBox->setCheckState(Qt::PartiallyChecked);
+	}
+	lock = false;
 }

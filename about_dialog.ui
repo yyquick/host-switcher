@@ -70,14 +70,14 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>71</x>
      <y>60</y>
-     <width>62</width>
-     <height>17</height>
+     <width>171</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>ver 0.11</string>
+    <string>ver 1.0 beta</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
