@@ -11,6 +11,7 @@
 #include <QString>
 #include <QAbstractSocket>
 #include <QIcon>
+#include <iostream>
 
 LoadConfigDialog::LoadConfigDialog(QWidget *parent) :
     QDialog(parent),
@@ -130,10 +131,11 @@ void LoadConfigDialog::refreshClients() {
 	PingServer *pingServer = parent_->pingServer;
 	PingServer::ClientIterator iter;
 	int i = 0;
+	QString iconPath = QApplication::applicationDirPath() + "/images/computer.gif";
 	for (iter = pingServer->clients.begin(); iter != pingServer->clients.end(); iter++) {
 		QTableWidgetItem *item = new QTableWidgetItem(iter.value());
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		item->setIcon(QIcon(QApplication::applicationDirPath() + "/images/computer.gif"));
+		item->setIcon(QIcon(iconPath));
 		item->setToolTip(iter.key());
 		ui->clientsTableWidget->setItem(i / 3, i % 3, item);
 		i++;
