@@ -2,8 +2,6 @@
 #include <QHostInfo>
 #include <QRegExp>
 
-#include <iostream>
-
 PingServer::PingServer(QObject *parent) :
     QObject(parent)
 {
@@ -95,5 +93,14 @@ void PingServer::searchClients(QString network)
 			addr.setAddress(ip);
 			ping(addr);
 		}
+		return;
+	}
+	QRegExp rx2("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
+	if (rx2.indexIn(network) != -1) {
+		QStringList match_list = rx2.capturedTexts();
+		QString ip = match_list[0];
+		QHostAddress addr;
+		addr.setAddress(ip);
+		ping(addr);
 	}
 }
