@@ -26,7 +26,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Share your configs</string>
+   <string>Share Your Configs</string>
   </property>
   <property name="windowIcon">
    <iconset resource="host_switcher.qrc">
