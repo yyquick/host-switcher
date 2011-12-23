@@ -57,7 +57,6 @@ unix {
     INSTALLS += target
 }
 mac { 
-    QMAKE_INFO_PLIST = host-switcher.plist
     ICON = images/switch.icns
     LIBS += -framework Security
 }

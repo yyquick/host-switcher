@@ -130,13 +130,18 @@ void LoadConfigDialog::refreshClients() {
 
 	PingServer *pingServer = parent_->pingServer;
 	PingServer::ClientIterator iter;
-	int i = 0;
 	QString iconPath = QApplication::applicationDirPath() + "/images/computer.gif";
+	QMap< QString, QString > reverseMap;
 	for (iter = pingServer->clients.begin(); iter != pingServer->clients.end(); iter++) {
-		QTableWidgetItem *item = new QTableWidgetItem(iter.value());
+		reverseMap.insertMulti(iter.value(), iter.key());
+	}
+	QMap< QString, QString >::iterator iter2;
+	int i = 0;
+	for (iter2 = reverseMap.begin(); iter2 != reverseMap.end(); iter2++) {
+		QTableWidgetItem *item = new QTableWidgetItem(iter2.key());
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		item->setIcon(QIcon(iconPath));
-		item->setToolTip(iter.key());
+		item->setToolTip(iter2.value());
 		ui->clientsTableWidget->setItem(i / 3, i % 3, item);
 		i++;
 	}
