@@ -81,6 +81,7 @@ void PingServer::recordClient(QHostAddress &addr, QString hostName)
 
 void PingServer::searchClients(QString network)
 {
+	clients.clear();
 	QRegExp rx("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.)\\*");
 	if (rx.indexIn(network) != -1) {
 		QString ip, prefix;
