@@ -47,7 +47,7 @@ void LoadPreviewDialog::showMyself(QString content)
 		i++;
 	}
 	if (overwrite) {
-		ui->noticeLabel->setText("<font color=red>NOTICE: The red item will overwrite your config!</font>");
+		ui->noticeLabel->setText("<font color=red>CAUTION: The red item will overwrite your config!</font>");
 	}
 	this->show();
 	lock = false;
