@@ -52,10 +52,10 @@ public:
 	void set(QString name, QString content);
 	QString getShareData();
 	bool hasShareData();
+	int find(QString name);
 
 protected:
 	QString config_file_path_;
-	int find(QString name);
 
 };
 

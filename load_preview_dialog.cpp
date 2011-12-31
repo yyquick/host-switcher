@@ -1,5 +1,6 @@
 #include "load_preview_dialog.h"
 #include "ui_load_preview_dialog.h"
+#include <iostream>
 
 LoadPreviewDialog::LoadPreviewDialog(QWidget *parent) :
     QDialog(parent),
@@ -29,15 +30,24 @@ void LoadPreviewDialog::showMyself(QString content)
 	ui->itemListTableWidget->setRowCount(host_config_->section_list_.count());
 	HostConfig::SectionListIter iter;
 	int i = 0;
+	bool overwrite = false;
 	for (iter = host_config_->section_list_.begin(); iter != host_config_->section_list_.end(); iter++) {
 		QTableWidgetItem *column = new QTableWidgetItem(iter->name_);
 		column->setCheckState(Qt::Unchecked);
 		if (iter == host_config_->section_list_.begin()) {
 			column->setBackgroundColor(QColor(200, 200, 200));
 			//column->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+		} else {
+			if (this->parent->host_config_->find(iter->name_) != -1) {
+				column->setTextColor(QColor(222, 0, 0));
+				overwrite = true;
+			}
 		}
 		ui->itemListTableWidget->setItem(i, 0, column);
 		i++;
+	}
+	if (overwrite) {
+		ui->noticeLabel->setText("<font color=red>NOTICE: The red item will overwrite your config!</font>");
 	}
 	this->show();
 	lock = false;
