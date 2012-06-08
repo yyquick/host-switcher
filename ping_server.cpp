@@ -1,11 +1,51 @@
 #include "ping_server.h"
 #include <QHostInfo>
 #include <QRegExp>
+#include <QThread>
+
+class PingThread : public QThread {
+    public:
+        PingThread(QObject *p):QThread(p){}
+
+        void setNetwork(QString n) { network = n; }
+
+        void ping(QHostAddress &receiver)
+        {
+            QByteArray data;
+            char sendType = PingServer::Ping;
+            data.append(&sendType, 1);
+            short len;
+            len = 3;
+            data.append((char *)&len, 2);
+            QUdpSocket usock;
+            usock.writeDatagram(data, receiver, HS_PING_SERVER_PORT);
+        }
+
+        void run()
+        {
+            QRegExp rx("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.)\\*");
+            if (rx.indexIn(network) != -1) {
+                QString ip, prefix;
+                QStringList match_list = rx.capturedTexts();
+                prefix = match_list[1];
+                int i;
+                QHostAddress addr;
+                for (i = 1; i <= 254; i++) {
+                    ip = prefix + QString::number(i);
+                    addr.setAddress(ip);
+                    ping(addr);
+                }
+            }
+        }
+    private:
+        QString network;
+};
 
 PingServer::PingServer(QObject *parent) :
     QObject(parent)
 {
-	this->parent = (HostSwitcher *)parent;
+    this->parent = (HostSwitcher *)parent;
+    thread = new PingThread(this);
 }
 
 void PingServer::initServer()
@@ -81,20 +121,13 @@ void PingServer::recordClient(QHostAddress &addr, QString hostName)
 
 void PingServer::searchClients(QString network)
 {
-	clients.clear();
+    clients.clear();
 	QRegExp rx("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.)\\*");
 	if (rx.indexIn(network) != -1) {
-		QString ip, prefix;
-		QStringList match_list = rx.capturedTexts();
-		prefix = match_list[1];
-		int i;
-		QHostAddress addr;
-		for (i = 1; i <= 254; i++) {
-			ip = prefix + QString::number(i);
-			addr.setAddress(ip);
-			ping(addr);
-		}
-		return;
+        if (!thread->isRunning()) {
+            thread->setNetwork(network);
+            thread->start();
+        }
 	}
 	QRegExp rx2("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
 	if (rx2.indexIn(network) != -1) {

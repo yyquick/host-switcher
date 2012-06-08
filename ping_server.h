@@ -12,6 +12,7 @@
 #define HS_PING_SERVER_PORT 12312
 
 class HostSwitcher;
+class PingThread;
 
 class PingServer : public QObject
 {
@@ -43,7 +44,8 @@ public slots:
 
 protected:
 	HostSwitcher *parent;
-	QUdpSocket *udpSocket;
+    QUdpSocket *udpSocket;
+    PingThread *thread;
 
 	void recordClient(QHostAddress &addr, QString hostName);
 };
